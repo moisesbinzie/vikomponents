@@ -1,0 +1,355 @@
+<!-- component2.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Component 2 - Pricing Packages</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600&family=Cormorant+Garamond:wght@400;500;600&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #F0EFED;
+      padding: 32px 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .c2-container {
+      max-width: 800px;
+      width: 100%;
+    }
+
+    .c2-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      text-align: center;
+      margin-bottom: 32px;
+      color: #2a2a2a;
+      font-style: normal;
+      font-weight: 400;
+    }
+
+    /* Grid wrapper with background */
+    .c2-grid-wrapper {
+      background: #E8E7E5;
+      border-radius: 20px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .c2-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    /* Card with corner dots */
+    .c2-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 24px;
+      position: relative;
+      overflow: visible;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Corner dots */
+    .c2-card::before,
+    .c2-card::after {
+      content: '';
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: #d0d0d0;
+      border-radius: 50%;
+    }
+
+    .c2-card::before {
+      top: 12px;
+      left: 12px;
+    }
+
+    .c2-card::after {
+      top: 12px;
+      right: 12px;
+    }
+
+    .c2-card .c2-dot-bl,
+    .c2-card .c2-dot-br {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: #d0d0d0;
+      border-radius: 50%;
+    }
+
+    .c2-dot-bl {
+      bottom: 12px;
+      left: 12px;
+    }
+
+    .c2-dot-br {
+      bottom: 12px;
+      right: 12px;
+    }
+
+    .c2-card-title {
+      font-size: 1.3rem;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: #2a2a2a;
+    }
+
+    .c2-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.2rem;
+      font-weight: 400;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #e5e5e5;
+      color: #2a2a2a;
+      letter-spacing: -0.02em;
+    }
+
+    .c2-price span {
+      font-size: 0.85rem;
+      color: #999;
+      font-weight: 300;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .c2-list {
+      list-style: none;
+      margin-bottom: 16px;
+      font-size: 0.85rem;
+      color: #555;
+      padding-bottom: 16px;
+    }
+
+    .c2-list.bordered {
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .c2-list.bordered-top {
+      border-top: 1px solid #e5e5e5;
+      padding-top: 20px;
+    }
+
+    .c2-list li {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .c2-list li::before {
+      content: '❖';
+      color: #c0c0c0;
+      font-size: 0.9rem;
+    }
+
+    .c2-desc {
+      font-size: 0.85rem;
+      color: #666;
+      line-height: 1.6;
+      max-width: 210px;
+      margin-bottom: auto;
+    }
+
+    .c2-btn {
+      background: #000;
+      color: #fff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      z-index: 2;
+      position: relative;
+      margin-top: 32px;
+      width: fit-content;
+    }
+
+    .c2-tree {
+      position: absolute;
+      bottom: 0;
+      right: 20px;
+      width: 120px;
+      z-index: 1;
+    }
+
+    .c2-toggle {
+      display: inline-flex;
+      background: #f0f0f0;
+      border-radius: 20px;
+      padding: 4px;
+      margin-bottom: 15px;
+      font-size: 0.75rem;
+      width: fit-content;
+    }
+
+    .c2-toggle span {
+      padding: 4px 12px;
+      border-radius: 16px;
+      color: #666;
+    }
+
+    .c2-toggle span.active {
+      background: white;
+      color: #1a1a1a;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+
+    .c2-framer {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.8rem;
+      margin-bottom: 30px;
+      color: #555;
+    }
+
+    .c2-switch {
+      width: 34px;
+      height: 20px;
+      background: #e5e5e5;
+      border-radius: 10px;
+      position: relative;
+    }
+
+    .c2-switch::after {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 2px;
+      width: 16px;
+      height: 16px;
+      background: white;
+      border-radius: 50%;
+    }
+
+    /* Bottom card with corner dots */
+    .c2-bottom-card {
+      background: #E8E7E5;
+      border-radius: 16px;
+      padding: 32px 32px 4px 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      position: relative;
+      overflow: hidden;
+      min-height: 220px;
+    }
+
+    .c2-bottom-card .c2-card-title {
+      font-weight: 500;
+    }
+
+    .c2-bottom-card .c2-btn {
+      margin-top: 60px;
+    }
+
+    /* Remove corner dots for bottom card */
+    .c2-bottom-card .c2-dot-bl,
+    .c2-bottom-card .c2-dot-br {
+      display: none;
+    }
+
+    .c2-landscape {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 360px;
+      z-index: 1;
+    }
+
+    .c2-bottom-desc {
+      font-size: 0.85rem;
+      color: #666;
+      line-height: 1.6;
+      max-width: 600px;
+      margin-bottom: -20px;
+      z-index: 2;
+      position: relative;
+    }
+
+    @media (max-width: 768px) {
+      .c2-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="c2-container">
+    <h2 class="c2-title">What package fits you?</h2>
+
+    <div class="c2-grid-wrapper">
+      <div class="c2-grid">
+        <div class="c2-card">
+          <div class="c2-dot-bl"></div>
+          <div class="c2-dot-br"></div>
+          <h3 class="c2-card-title">Product Design</h3>
+          <div class="c2-price">$75 <span>Hourly</span></div>
+          <ul class="c2-list bordered">
+            <li>Experienced Designer</li>
+            <li>Fast Delivery</li>
+            <li>Conversion Focused</li>
+            <li>Tailored Design Strategy</li>
+          </ul>
+          <p class="c2-desc">Perfect if you're looking to build a dashboard, app, etc... and get it "done-right" the
+            first time.</p>
+          <button class="c2-btn">Contact Us</button>
+          <img src="https://pub-f170a2592d2c4a1485466404c36807be.r2.dev/viktor/gold%20tree.webp" class="c2-tree"
+            alt="Gold Tree">
+        </div>
+
+        <div class="c2-card">
+          <div class="c2-dot-bl"></div>
+          <div class="c2-dot-br"></div>
+          <h3 class="c2-card-title">Web Design</h3>
+          <div class="c2-price">$1,500 <span>One-time</span></div>
+          <div class="c2-toggle"><span class="active">Single-page</span><span>Multi-page</span></div>
+          <div class="c2-framer">Framer Development <div class="c2-switch"></div>
+          </div>
+          <ul class="c2-list bordered bordered-top">
+            <li>Experienced Designer</li>
+            <li>Fast Delivery</li>
+            <li>Conversion Focused</li>
+            <li>50/50 Secure Payments</li>
+          </ul>
+          <br><br>
+          <button class="c2-btn">Contact Us</button>
+          <img src="https://pub-f170a2592d2c4a1485466404c36807be.r2.dev/viktor/purple%20tree.webp" class="c2-tree"
+            alt="Purple Tree">
+        </div>
+      </div>
+    </div>
+
+    <div class="c2-bottom-card">
+      <h3 class="c2-card-title">Unique Request</h3>
+      <p class="c2-bottom-desc">Are you looking for something custom?<br>Don't hesitate to contact us, and we'll help
+        brainstorming your product to success.</p>
+      <button class="c2-btn">Contact Us</button>
+      <img src="https://pub-f170a2592d2c4a1485466404c36807be.r2.dev/viktor/landscape.webp" class="c2-landscape"
+        alt="Landscape">
+    </div>
+  </div>
+</body>
+
+</html>

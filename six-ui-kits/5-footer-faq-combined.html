@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Component 5 - Transfer</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: #ffffff; margin: 0; padding: 0; color: #111; }
+  .c5-container { max-width: 1100px; width: 100%; margin: 0 auto; padding: 0 20px; }
+  .c5-main-wrapper { padding: 80px 0; }
+  
+  /* Top Section */
+  .c5-top { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+  .c5-cta-card { 
+    background-color: #ff8e53;
+    background-image: 
+      radial-gradient(circle at 10% 10%, #fff1aa 0px, transparent 55%),
+      radial-gradient(circle at 90% 10%, #ff4b2b 0px, transparent 55%),
+      radial-gradient(circle at 10% 90%, #8aff8a 0px, transparent 55%),
+      radial-gradient(circle at 90% 90%, #ffd000 0px, transparent 55%),
+      radial-gradient(circle at 50% 50%, #ff1493 0px, transparent 65%);
+    border-radius: 24px; 
+    padding: 60px 40px; 
+    color: white; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); 
+  }
+  .c5-cta-title { font-size: 2.8rem; font-weight: 600; line-height: 1.15; margin-bottom: 15px; letter-spacing: -0.03em; }
+  .c5-cta-desc { font-size: 1rem; margin-bottom: 30px; font-weight: 500; opacity: 0.95; }
+  .c5-cta-btn { 
+    background: #111; 
+    color: white; 
+    padding: 14px 28px; 
+    border-radius: 12px; 
+    font-weight: 500; 
+    text-decoration: none; 
+    border: none; 
+    cursor: pointer; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
+    font-size: 0.95rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .c5-cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.4); 
+  }
+  
+  .c5-faq { display: flex; flex-direction: column; justify-content: center; gap: 12px; }
+  .c5-faq-item { background: white; border: 1px solid #f0f0f0; border-radius: 10px; padding: 18px 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); transition: all 0.2s ease; cursor: pointer; }
+  .c5-faq-item:hover { border-color: #eaeaea; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+  .c5-faq-item.active { border-color: #eaeaea; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+  .c5-faq-header { display: flex; justify-content: space-between; align-items: center; font-weight: 500; font-size: 0.95rem; color: #111; }
+  .c5-faq-content { margin-top: 12px; font-size: 0.9rem; color: #666; line-height: 1.6; display: none; }
+  .c5-faq-item.active .c5-faq-content { display: block; }
+  .c5-icon { display: flex; align-items: center; justify-content: center; color: #111; }
+  .c5-icon svg { width: 18px; height: 18px; }
+
+  /* Footer Section */
+  .c5-footer-wrapper { background: #fafafa; padding: 80px 0 20px; }
+  .c5-footer { display: grid; grid-template-columns: 2fr 1fr 1fr 2fr; gap: 40px; margin-bottom: 50px; }
+  .c5-brand img { height: 24px; filter: brightness(0); margin-bottom: 15px; }
+  .c5-brand p { font-size: 0.9rem; color: #888; line-height: 1.6; max-width: 220px; }
+  .c5-links-title { font-weight: 500; margin-bottom: 20px; font-size: 1rem; color: #111; }
+  .c5-links { list-style: none; }
+  .c5-links li { margin-bottom: 12px; }
+  .c5-links a { color: #888; text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+  .c5-links a:hover { color: #111; }
+  .c5-newsletter p { font-size: 0.9rem; color: #888; margin-bottom: 15px; }
+  .c5-input-group { display: flex; gap: 10px; }
+  .c5-input { flex-grow: 1; padding: 12px 16px; border: 1px solid #eaeaea; border-radius: 10px; font-size: 0.9rem; background: #fafafa; outline: none; transition: border-color 0.2s ease; }
+  .c5-input:focus { border-color: #ccc; }
+  .c5-sub-btn { background: #111; color: white; border: none; padding: 12px 24px; border-radius: 10px; font-size: 0.9rem; font-weight: 500; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.2); transition: transform 0.2s, box-shadow 0.2s; }
+  .c5-sub-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(0,0,0,0.3); }
+  
+  .c5-bottom { border-top: 1px solid #f0f0f0; padding-top: 25px; padding-bottom: 10px; display: flex; justify-content: space-between; font-size: 0.85rem; color: #888; }
+
+  @media (max-width: 900px) {
+    .c5-top { grid-template-columns: 1fr; gap: 60px; }
+    .c5-footer { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .c5-main-wrapper { padding: 60px 0; }
+    .c5-footer-wrapper { padding: 60px 0 20px; }
+  }
+  @media (max-width: 480px) { 
+    .c5-footer { grid-template-columns: 1fr; } 
+    .c5-bottom { flex-direction: column; gap: 15px; align-items: center; }
+  }
+</style>
+</head>
+<body>
+  <main class="c5-main-wrapper">
+    <div class="c5-container">
+    <div class="c5-top">
+      <div class="c5-cta-card">
+        <h2 class="c5-cta-title">Ready to Transfer<br>Without Borders?</h2>
+        <p class="c5-cta-desc">Send Money Worldwide at the Best Rates</p>
+        <button class="c5-cta-btn">Get Started Today</button>
+      </div>
+      
+      <div class="c5-faq">
+        <div class="c5-faq-item active">
+          <div class="c5-faq-header">What is the maximum amount I can send? 
+            <span class="c5-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+            </span>
+          </div>
+          <div class="c5-faq-content">Transfer limits depend on your verification level and country. You can check your limits inside your account settings.</div>
+        </div>
+        <div class="c5-faq-item">
+          <div class="c5-faq-header">Does my recipient need an account? 
+            <span class="c5-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </div>
+          <div class="c5-faq-content">No, your recipient doesn't need an account. Funds can be sent directly to their bank account or mobile wallet.</div>
+        </div>
+        <div class="c5-faq-item">
+          <div class="c5-faq-header">Is there a mobile app available? 
+            <span class="c5-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </div>
+          <div class="c5-faq-content">Yes, our mobile app is available on both iOS and Android for easy transfers on the go.</div>
+        </div>
+        <div class="c5-faq-item">
+          <div class="c5-faq-header">Can I cancel a transfer? 
+            <span class="c5-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </div>
+          <div class="c5-faq-content">Transfers can be cancelled if they have not yet been processed by the receiving bank. Check your transfer status for options.</div>
+        </div>
+        <div class="c5-faq-item">
+          <div class="c5-faq-header">What currencies are supported? 
+            <span class="c5-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </div>
+          <div class="c5-faq-content">We support over 50 currencies worldwide. You can view the full list of supported currencies in our app or website.</div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </main>
+  
+  <footer class="c5-footer-wrapper">
+    <div class="c5-container">
+      <div class="c5-footer">
+      <div class="c5-brand">
+        <img src="https://pub-f170a2592d2c4a1485466404c36807be.r2.dev/Tests/logoipsum-415.svg" alt="Logo">
+        <p>Reliable transfers that always reach their destination on time.</p>
+      </div>
+      <div>
+        <h4 class="c5-links-title">Navigation</h4>
+        <ul class="c5-links">
+          <li><a href="#">Features</a></li>
+          <li><a href="#">Benefits</a></li>
+          <li><a href="#">Testimonials</a></li>
+          <li><a href="#">Pricing</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="c5-links-title">Pages</h4>
+        <ul class="c5-links">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">404</a></li>
+        </ul>
+      </div>
+      <div class="c5-newsletter">
+        <h4 class="c5-links-title">Newsletter</h4>
+        <p>Join our newsletter and get notified.</p>
+        <div class="c5-input-group">
+          <input type="email" placeholder="Enter your email..." class="c5-input">
+          <button class="c5-sub-btn">Subscribe</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="c5-bottom">
+      <p>All rights reserved. © 2025</p>
+      <p>Designed by Peter Design</p>
+    </div>
+  </div>
+</footer>
+
+  <script>
+    document.querySelectorAll('.c5-faq-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const isActive = item.classList.contains('active');
+        
+        // Close all
+        document.querySelectorAll('.c5-faq-item').forEach(faq => {
+          faq.classList.remove('active');
+          faq.querySelector('.c5-icon').innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
+        });
+
+        // Open clicked if it wasn't active
+        if (!isActive) {
+          item.classList.add('active');
+          item.querySelector('.c5-icon').innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

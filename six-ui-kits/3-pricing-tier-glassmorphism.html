@@ -1,0 +1,576 @@
+<!-- component3.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Component 3 - Forma AI Pricing</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: url('https://pub-f170a2592d2c4a1485466404c36807be.r2.dev/viktor/component%20background.jpg') no-repeat center center/cover;
+      background-color: #000;
+      color: white;
+      min-height: 100vh;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .c3-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 1100px;
+      position: relative;
+      margin-bottom: 40px;
+      z-index: 10;
+      padding: 10px 0;
+    }
+
+    .c3-logo {
+      width: 32px;
+      height: auto;
+      filter: brightness(0) invert(1);
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .c3-hamburger {
+      display: none;
+      width: 32px;
+      height: 32px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: absolute;
+      right: 0;
+    }
+
+    .c3-hamburger span {
+      display: block;
+      width: 16px;
+      height: 2px;
+      background: white;
+      position: relative;
+    }
+
+    .c3-hamburger span::before,
+    .c3-hamburger span::after {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 2px;
+      background: white;
+      left: 0;
+    }
+
+    .c3-hamburger span::before {
+      top: -5px;
+    }
+
+    .c3-hamburger span::after {
+      top: 5px;
+    }
+
+    .c3-watermark-container {
+      position: absolute;
+      top: 150px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+      pointer-events: none;
+      width: fit-content;
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .c3-watermark-top {
+      font-size: 2.8rem;
+      font-weight: 600;
+      color: rgba(164, 244, 253, 1.0);
+      margin-bottom: -90px;
+      position: relative;
+      top: -20px;
+      z-index: 5;
+      text-shadow: 0 0 30px rgba(164, 244, 253, 0.6), 0 0 60px rgba(164, 244, 253, 0.3);
+    }
+
+    .c3-watermark-main {
+      font-size: 16rem;
+      font-weight: 800;
+      background: linear-gradient(to right, #002266 0%, #00d2ff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+      text-shadow: 0 0 50px rgba(0, 210, 255, 0.3);
+      filter: url(#c3-noise);
+      position: relative;
+      z-index: 1;
+    }
+
+    .c3-nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: rgba(30, 35, 45, 0.75);
+      backdrop-filter: blur(10px);
+      padding: 4px 6px;
+      border-radius: 100px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      z-index: 2;
+      font-size: 0.82rem;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+
+    .c3-nav-close {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      color: rgba(255, 255, 255, 0.7);
+      cursor: pointer;
+      transition: all 0.3s;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .c3-nav-close:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+    }
+
+    .c3-nav a {
+      color: #a3a3a3;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .c3-nav a.active {
+      color: white;
+      font-weight: 500;
+    }
+
+    .c3-nav-btn {
+      background: white;
+      color: black;
+      padding: 6px 16px;
+      border-radius: 100px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 10px;
+    }
+
+    .c3-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      width: 100%;
+      max-width: 1100px;
+      z-index: 2;
+      margin-top: 150px;
+      margin-bottom: 40px;
+    }
+
+    .c3-card {
+      background: rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 44px;
+      padding: 50px 40px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      min-height: 580px;
+    }
+
+    .c3-card:hover {
+      background: rgba(20, 20, 20, 0.3);
+      border-color: rgba(255, 255, 255, 0.35);
+      transform: translateY(-8px);
+    }
+
+    .c3-card-pro {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1.5px solid rgba(100, 200, 255, 0.6);
+      box-shadow: 
+        inset 0 0 80px rgba(100, 200, 255, 0.4),
+        inset 0 0 40px rgba(100, 200, 255, 0.2),
+        inset 0 0 10px rgba(100, 200, 255, 0.3),
+        0 15px 35px rgba(0, 0, 0, 0.5);
+    }
+
+    .c3-tier-small {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 6px;
+      font-weight: 400;
+    }
+
+    .c3-tier-large {
+      font-size: 2.8rem;
+      font-weight: 500;
+      color: white;
+      letter-spacing: -0.02em;
+    }
+
+    .c3-price {
+      font-size: 3.2rem;
+      font-weight: 500;
+      margin: 15px 0 25px;
+    }
+
+    .c3-desc {
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, 0.45);
+      margin-bottom: 40px;
+      line-height: 1.6;
+      min-height: 3.2em;
+    }
+
+    .c3-list {
+      list-style: none;
+      flex-grow: 1;
+      margin-bottom: 40px;
+    }
+
+    .c3-list li {
+      margin-bottom: 18px;
+      font-size: 0.92rem;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .c3-check {
+      width: 22px;
+      height: 22px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .c3-check svg {
+      width: 11px;
+      height: 11px;
+      fill: white;
+    }
+
+    .c3-btn {
+      background: white;
+      color: black;
+      border: none;
+      padding: 10px 32px;
+      border-radius: 100px;
+      width: fit-content;
+      align-self: center;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.88rem;
+      margin-top: auto;
+    }
+
+    .c3-btn:hover {
+      background: #f5f5f5;
+      transform: scale(1.02);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .c3-toggle-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 2;
+      max-width: 1100px;
+      width: 100%;
+      justify-self: center;
+    }
+
+    .c3-toggle {
+      width: 52px;
+      height: 28px;
+      background: white;
+      border-radius: 100px;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .c3-toggle::after {
+      content: '';
+      position: absolute;
+      left: 4px;
+      top: 4px;
+      width: 20px;
+      height: 20px;
+      background: black;
+      border-radius: 50%;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .c3-toggle.active {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .c3-toggle.active::after {
+      transform: translateX(24px);
+      background: white;
+    }
+
+    .c3-toggle-label {
+      font-size: 1rem;
+      color: white;
+      font-weight: 500;
+    }
+
+    @media (max-width: 1024px) {
+      .c3-grid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+      }
+
+      .c3-toggle-wrap {
+        max-width: 400px;
+      }
+
+      .c3-watermark-top {
+        font-size: 4vw;
+        margin-bottom: -4vw;
+        position: relative;
+        top: 0;
+        z-index: 5;
+      }
+
+      .c3-watermark-main {
+        font-size: 14vw;
+        background: none;
+        -webkit-background-clip: initial;
+        background-clip: initial;
+        color: #00d2ff;
+      }
+
+      .c3-nav {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(15, 20, 25, 0.6);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+        padding: 40px;
+        border-radius: 0;
+        z-index: 100;
+      }
+
+      .c3-nav.active {
+        display: flex;
+      }
+
+      .c3-nav a {
+        font-size: 1.5rem;
+      }
+
+      .c3-nav-close {
+        position: absolute;
+        top: 30px;
+        right: 30px;
+      }
+
+      .c3-hamburger {
+        display: flex;
+      }
+
+      .c3-header {
+        max-width: 100%;
+        padding: 0 20px;
+      }
+    }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const hamburger = document.querySelector('.c3-hamburger');
+      const nav = document.querySelector('.c3-nav');
+      const navClose = document.querySelector('.c3-nav-close');
+
+      hamburger.addEventListener('click', function () {
+        nav.classList.add('active');
+      });
+
+      navClose.addEventListener('click', function () {
+        nav.classList.remove('active');
+      });
+
+      // Close menu when clicking outside
+      nav.addEventListener('click', function (e) {
+        if (e.target === nav) {
+          nav.classList.remove('active');
+        }
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <svg style="position: fixed; width: 0; height: 0;">
+    <filter id="c3-noise">
+      <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="2" result="noise" />
+      <feComponentTransfer in="noise" result="softNoise">
+        <feFuncA type="linear" slope="0.15" />
+      </feComponentTransfer>
+      <feComposite operator="in" in="softNoise" in2="SourceGraphic" result="clipped" />
+      <feBlend in="SourceGraphic" in2="clipped" mode="overlay" />
+    </filter>
+  </svg>
+  <div class="c3-header">
+    <img src="https://pub-f170a2592d2c4a1485466404c36807be.r2.dev/Tests/logoipsum-415.svg" alt="Logo" class="c3-logo">
+
+    <div class="c3-nav">
+      <span class="c3-nav-close">✕</span>
+      <a href="#">Home</a>
+      <a href="#" class="active">Pricing</a>
+      <a href="#">FAQ</a>
+      <a href="#">Contact</a>
+      <a href="#" class="c3-nav-btn">Download</a>
+    </div>
+
+    <div class="c3-hamburger">
+      <span></span>
+    </div>
+  </div>
+
+  <div class="c3-watermark-container">
+    <div class="c3-watermark-top">Forma AI</div>
+    <div class="c3-watermark-main">Pricing</div>
+  </div>
+
+  <div class="c3-grid">
+    <div class="c3-card">
+      <div class="c3-card-header">
+        <div class="c3-tier-small">Free</div>
+        <div class="c3-tier-large">Free</div>
+      </div>
+      <div class="c3-desc">For creators taking their first steps with Forma.</div>
+      <ul class="c3-list">
+        <li><span class="c3-check"><svg viewBox="0 0 24 24">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+            </svg></span>Up to 3 projects in the cloud</li>
+        <li><span class="c3-check"><svg viewBox="0 0 24 24">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+            </svg></span>Image export up to 1080p</li>
+        <li><span class="c3-check"><svg viewBox="0 0 24 24">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+            </svg></span>Basic editing tools</li>
+        <li><span class="c3-check"><svg viewBox="0 0 24 24">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+            </svg></span>Free templates and icons</li>
+        <li><span class="c3-check"><svg viewBox="0 0 24 24">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+            </svg></span>Access via web and mobile app</li>
+      </ul>
+      <button class="c3-btn">Choose Plan</button>
+    </div>
+
+    <div class="c3-card">
+      <div class="c3-card-header">
+        <div class="c3-tier-small">Standard</div>
+        <div class="c3-tier-large">$9,99/m</div>
+      </div>
+      <div class="c3-desc">For freelancers and small teams who need more freedom and flexibility.</div>
+      <ul class="c3-list">
+        <li><span class="c3-check"><svg viewBox="0 0 24 24">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+            </svg></span>Up to 50 projects in the cloud</li>
+        <li><span class="c3-check"><svg viewBox="0 0 24 24">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+            </svg></span>Export up to 4K</li>
+        <li><span class="c3-check"><svg viewBox="0 0 24 24">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+            </svg></span>Advanced editing toolkit</li>
+        <li><span class="c3-check"><svg viewBox="0 0 24 24">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+            </svg></span>Team collaboration (up to 5 members)</li>
+        <li><span class="c3-check"><svg viewBox="0 0 24 24">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+            </svg></span>Access to premium template library</li>
+      </ul>
+      <button class="c3-btn">Choose Plan</button>
+    </div>
+
+    <div class="c3-card c3-card-pro">
+      <div class="c3-card-header">
+        <div class="c3-tier-small">Pro</div>
+        <div class="c3-tier-large">$19,99/m</div>
+      </div>
+      <div class="c3-desc">For studios, agencies, and professional creators working with brands.</div>
+      <ul class="c3-list">
+        <li><span class="c3-check"><svg viewBox="0 0 24 24">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+            </svg></span>Unlimited projects</li>
+        <li><span class="c3-check"><svg viewBox="0 0 24 24">
+              <path d="M9 16.17L4.83 12l-1.41-1.41L9 19 21 7l-1.41-1.41z" />
+            </svg></span>Export up to 8K + animations</li>
+        <li><span class="c3-check"><svg viewBox="0 0 24 24">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+            </svg></span>AI-powered content generation tools</li>
+        <li><span class="c3-check"><svg viewBox="0 0 24 24">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+            </svg></span>Unlimited team members</li>
+        <li><span class="c3-check"><svg viewBox="0 0 24 24">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+            </svg></span>Brand customization</li>
+      </ul>
+      <button class="c3-btn">Choose Plan</button>
+    </div>
+  </div>
+
+  <div class="c3-toggle-wrap">
+    <div class="c3-toggle" id="yearlyToggle"></div>
+    <span class="c3-toggle-label">Yearly</span>
+  </div>
+
+  <script>
+    document.getElementById('yearlyToggle').addEventListener('click', function () {
+      this.classList.toggle('active');
+    });
+  </script>
+</body>
+
+</html>
