@@ -113,19 +113,17 @@
       position: relative;
       top: -20px;
       z-index: 5;
-      text-shadow: 0 0 30px rgba(164, 244, 253, 0.6), 0 0 60px rgba(164, 244, 253, 0.3);
     }
 
     .c3-watermark-main {
       font-size: 16rem;
       font-weight: 800;
-      background: linear-gradient(to right, #002266 0%, #00d2ff 100%);
+      background: linear-gradient(to right, #091020 0%, #0B2551 25%, #A4F4FD 65%, #00d2ff 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
       line-height: 0.9;
       letter-spacing: -0.05em;
-      text-shadow: 0 0 50px rgba(0, 210, 255, 0.3);
       filter: url(#c3-noise);
       position: relative;
       z-index: 1;
@@ -192,38 +190,55 @@
       width: 100%;
       max-width: 1100px;
       z-index: 2;
-      margin-top: 150px;
+      margin-top: 105px;
       margin-bottom: 40px;
+      transform: translateX(20px);
     }
 
     .c3-card {
-      background: rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4));
+      backdrop-filter: blur(14px) brightness(0.91);
+      -webkit-backdrop-filter: blur(14px) brightness(0.91);
+      border: 1px solid rgba(255, 255, 255, 1.0);
       border-radius: 44px;
-      padding: 50px 40px;
+      padding: 50px 24px;
       display: flex;
       flex-direction: column;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
       position: relative;
       min-height: 580px;
+      overflow: hidden;
+    }
+
+    .c3-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 50%);
+      pointer-events: none;
     }
 
     .c3-card:hover {
-      background: rgba(20, 20, 20, 0.3);
-      border-color: rgba(255, 255, 255, 0.35);
-      transform: translateY(-8px);
+      background: rgba(15, 15, 15, 0.6);
+      border-color: rgba(34, 211, 238, 0.7);
+      transform: translateY(-12px) scale(1.01);
     }
 
     .c3-card-pro {
-      background: rgba(0, 0, 0, 0.2);
-      border: 1.5px solid rgba(100, 200, 255, 0.6);
-      box-shadow: 
-        inset 0 0 80px rgba(100, 200, 255, 0.4),
-        inset 0 0 40px rgba(100, 200, 255, 0.2),
-        inset 0 0 10px rgba(100, 200, 255, 0.3),
-        0 15px 35px rgba(0, 0, 0, 0.5);
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5));
+      border: 1px solid rgba(255, 255, 255, 1.0);
+    }
+
+    .c3-card-pro:hover {
+      background: rgba(15, 15, 15, 0.65);
+      border-color: rgba(34, 211, 238, 0.7);
+    }
+
+    .c3-card-border {
+      border: 1px solid rgba(255, 255, 255, 1.0);
     }
 
     .c3-tier-small {
@@ -270,9 +285,9 @@
     }
 
     .c3-check {
-      width: 22px;
-      height: 22px;
-      background: rgba(255, 255, 255, 0.1);
+      width: 28px;
+      height: 28px;
+      background: rgba(255, 255, 255, 0.15);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -281,9 +296,13 @@
     }
 
     .c3-check svg {
-      width: 11px;
-      height: 11px;
-      fill: white;
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: white;
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     .c3-btn {
@@ -355,29 +374,70 @@
     }
 
     @media (max-width: 1024px) {
+      .c3-watermark-container {
+        position: relative;
+        top: 0;
+        left: 0;
+        transform: none;
+        margin-top: 40px;
+        margin-bottom: 20px;
+        text-align: center;
+        align-items: center;
+        width: 100%;
+      }
+
       .c3-grid {
-        grid-template-columns: 1fr;
-        max-width: 400px;
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+        gap: 20px;
+        padding: 20px 40px;
+        width: 100vw;
+        margin-left: -20px;
+        margin-right: -20px;
+        margin-top: 20px;
+        transform: none;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      .c3-grid::-webkit-scrollbar {
+        display: none;
+      }
+
+      .c3-card {
+        scroll-snap-align: center;
+        flex: 0 0 320px;
+        min-height: 520px;
+        margin-bottom: 20px;
       }
 
       .c3-toggle-wrap {
-        max-width: 400px;
+        margin-top: 20px;
       }
 
       .c3-watermark-top {
-        font-size: 4vw;
-        margin-bottom: -4vw;
+        font-size: 2rem;
+        font-weight: 600;
+        color: rgba(164, 244, 253, 1.0);
+        margin-bottom: 0px;
         position: relative;
-        top: 0;
         z-index: 5;
       }
 
       .c3-watermark-main {
-        font-size: 14vw;
+        font-size: 6rem;
+        font-weight: 800;
         background: none;
         -webkit-background-clip: initial;
         background-clip: initial;
         color: #00d2ff;
+        line-height: 0.9;
+        letter-spacing: -0.05em;
+        filter: none;
       }
 
       .c3-nav {
@@ -453,7 +513,7 @@
     <filter id="c3-noise">
       <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="2" result="noise" />
       <feComponentTransfer in="noise" result="softNoise">
-        <feFuncA type="linear" slope="0.15" />
+        <feFuncA type="linear" slope="0.075" />
       </feComponentTransfer>
       <feComposite operator="in" in="softNoise" in2="SourceGraphic" result="clipped" />
       <feBlend in="SourceGraphic" in2="clipped" mode="overlay" />
@@ -482,7 +542,7 @@
   </div>
 
   <div class="c3-grid">
-    <div class="c3-card">
+    <div class="c3-card c3-card-border">
       <div class="c3-card-header">
         <div class="c3-tier-small">Free</div>
         <div class="c3-tier-large">Free</div>
@@ -490,25 +550,25 @@
       <div class="c3-desc">For creators taking their first steps with Forma.</div>
       <ul class="c3-list">
         <li><span class="c3-check"><svg viewBox="0 0 24 24">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+              <path d="M20 6L9 17l-5-5" />
             </svg></span>Up to 3 projects in the cloud</li>
         <li><span class="c3-check"><svg viewBox="0 0 24 24">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+              <path d="M20 6L9 17l-5-5" />
             </svg></span>Image export up to 1080p</li>
         <li><span class="c3-check"><svg viewBox="0 0 24 24">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+              <path d="M20 6L9 17l-5-5" />
             </svg></span>Basic editing tools</li>
         <li><span class="c3-check"><svg viewBox="0 0 24 24">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+              <path d="M20 6L9 17l-5-5" />
             </svg></span>Free templates and icons</li>
         <li><span class="c3-check"><svg viewBox="0 0 24 24">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+              <path d="M20 6L9 17l-5-5" />
             </svg></span>Access via web and mobile app</li>
       </ul>
       <button class="c3-btn">Choose Plan</button>
     </div>
 
-    <div class="c3-card">
+    <div class="c3-card c3-card-border">
       <div class="c3-card-header">
         <div class="c3-tier-small">Standard</div>
         <div class="c3-tier-large">$9,99/m</div>
@@ -516,19 +576,19 @@
       <div class="c3-desc">For freelancers and small teams who need more freedom and flexibility.</div>
       <ul class="c3-list">
         <li><span class="c3-check"><svg viewBox="0 0 24 24">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+              <path d="M20 6L9 17l-5-5" />
             </svg></span>Up to 50 projects in the cloud</li>
         <li><span class="c3-check"><svg viewBox="0 0 24 24">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+              <path d="M20 6L9 17l-5-5" />
             </svg></span>Export up to 4K</li>
         <li><span class="c3-check"><svg viewBox="0 0 24 24">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+              <path d="M20 6L9 17l-5-5" />
             </svg></span>Advanced editing toolkit</li>
         <li><span class="c3-check"><svg viewBox="0 0 24 24">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+              <path d="M20 6L9 17l-5-5" />
             </svg></span>Team collaboration (up to 5 members)</li>
         <li><span class="c3-check"><svg viewBox="0 0 24 24">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+              <path d="M20 6L9 17l-5-5" />
             </svg></span>Access to premium template library</li>
       </ul>
       <button class="c3-btn">Choose Plan</button>
@@ -542,24 +602,25 @@
       <div class="c3-desc">For studios, agencies, and professional creators working with brands.</div>
       <ul class="c3-list">
         <li><span class="c3-check"><svg viewBox="0 0 24 24">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+              <path d="M20 6L9 17l-5-5" />
             </svg></span>Unlimited projects</li>
         <li><span class="c3-check"><svg viewBox="0 0 24 24">
-              <path d="M9 16.17L4.83 12l-1.41-1.41L9 19 21 7l-1.41-1.41z" />
+              <path d="M20 6L9 17l-5-5" />
             </svg></span>Export up to 8K + animations</li>
         <li><span class="c3-check"><svg viewBox="0 0 24 24">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+              <path d="M20 6L9 17l-5-5" />
             </svg></span>AI-powered content generation tools</li>
         <li><span class="c3-check"><svg viewBox="0 0 24 24">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+              <path d="M20 6L9 17l-5-5" />
             </svg></span>Unlimited team members</li>
         <li><span class="c3-check"><svg viewBox="0 0 24 24">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+              <path d="M20 6L9 17l-5-5" />
             </svg></span>Brand customization</li>
       </ul>
       <button class="c3-btn">Choose Plan</button>
     </div>
   </div>
+
 
   <div class="c3-toggle-wrap">
     <div class="c3-toggle" id="yearlyToggle"></div>
