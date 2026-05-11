@@ -179,17 +179,24 @@
 
         .logo {
             height: 32px;
-            filter: invert(1);
+            filter: brightness(0) invert(1);
+            transition: filter 0.5s ease;
         }
 
         body.light-theme .logo {
-            filter: invert(0);
+            filter: brightness(0);
         }
 
         .brand-name {
             font-size: 24px;
             font-weight: 600;
             letter-spacing: -0.5px;
+            color: #ffffff;
+            transition: color 0.5s ease;
+        }
+
+        body.light-theme .brand-name {
+            color: #111111;
         }
 
         .nav-links {
