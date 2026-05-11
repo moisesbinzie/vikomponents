@@ -324,6 +324,73 @@
             width: 28px;
             height: 28px;
             fill: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ─── DYNAMIC LIGHTING & SPLASH ─── */
+        .node-light-right::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -2px;
+            bottom: 0;
+            width: 50%;
+            border-radius: 0 50px 50px 0;
+            background: radial-gradient(circle at right, rgba(200, 200, 200, 0.45) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 4;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .node-light-right.active::before {
+            opacity: 1;
+        }
+
+        .node-light-left::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -2px;
+            bottom: 0;
+            width: 50%;
+            border-radius: 50px 0 0 50px;
+            background: radial-gradient(circle at left, rgba(200, 100, 255, 0.5) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 4;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .node-light-left.active::before {
+            opacity: 1;
+        }
+
+        .splash {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            margin-top: -50px;
+            margin-left: -50px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 77, 200, 0.6) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 2; /* Lower than nodes (3) but higher than lines (1) */
+            opacity: 0;
+            transform: scale(0.4);
+        }
+
+        .splash.animate {
+            animation: splash-anim 0.8s ease-out forwards;
+        }
+
+        @keyframes splash-anim {
+            0% { transform: scale(0.4); opacity: 0.8; }
+            40% { opacity: 0.6; }
+            100% { transform: scale(1.4); opacity: 0; }
         }
 
         /* ─── HERO TEXT ─── */
@@ -609,7 +676,7 @@
             </svg>
 
             <!-- Layers icon -->
-            <div class="icon-node" id="node-stack">
+            <div class="icon-node node-light-right" id="node-stack">
                 <svg viewBox="0 0 24 24">
                     <polygon points="12 2 2 7 12 12 22 7 12 2" />
                     <polyline points="2 17 12 22 22 17" />
@@ -619,19 +686,22 @@
 
             <div class="pipeline-line"></div>
 
-            <!-- Center Xero logo -->
-            <div class="icon-node-center" id="node-x">
-                <!-- Logoipsum SVG -->
-                <svg viewBox="0 0 40 40" fill="white" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M20 0C25.3043 4.00466e-07 30.3919 2.10669 34.1426 5.85742C34.8157 6.53058 35.4354 7.24719 36 8H20C16.8174 8 13.7651 9.26421 11.5146 11.5146C9.26421 13.7651 8 16.8174 8 20H20L36.9102 9.31934C38.1656 11.3074 39.0611 13.5027 39.5547 15.8027L32 20H40L39.9941 20.4971C39.8669 25.6213 37.776 30.5092 34.1426 34.1426C30.3919 37.8933 25.3043 40 20 40C14.6957 40 9.60815 37.8933 5.85742 34.1426C5.18426 33.4694 4.56459 32.7528 4 32H20C23.1826 32 26.2349 30.7358 28.4854 28.4854C30.5952 26.3755 31.8383 23.5608 31.9854 20.5947L32 20H20L3.08984 30.6787C1.83452 28.6906 0.941002 26.4951 0.447266 24.1953L8 20H0C8.00931e-07 14.6957 2.1067 9.60815 5.85742 5.85742C9.60815 2.1067 14.6957 -5.79361e-10 20 0Z" />
-                </svg>
+            <!-- Center Xero logo with Splash Wrapper -->
+            <div style="position: relative; display: flex; align-items: center; justify-content: center;">
+                <div class="splash" id="splash"></div>
+                <div class="icon-node-center" id="node-x">
+                    <!-- Logoipsum SVG -->
+                    <svg viewBox="0 0 40 40" fill="white" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M20 0C25.3043 4.00466e-07 30.3919 2.10669 34.1426 5.85742C34.8157 6.53058 35.4354 7.24719 36 8H20C16.8174 8 13.7651 9.26421 11.5146 11.5146C9.26421 13.7651 8 16.8174 8 20H20L36.9102 9.31934C38.1656 11.3074 39.0611 13.5027 39.5547 15.8027L32 20H40L39.9941 20.4971C39.8669 25.6213 37.776 30.5092 34.1426 34.1426C30.3919 37.8933 25.3043 40 20 40C14.6957 40 9.60815 37.8933 5.85742 34.1426C5.18426 33.4694 4.56459 32.7528 4 32H20C23.1826 32 26.2349 30.7358 28.4854 28.4854C30.5952 26.3755 31.8383 23.5608 31.9854 20.5947L32 20H20L3.08984 30.6787C1.83452 28.6906 0.941002 26.4951 0.447266 24.1953L8 20H0C8.00931e-07 14.6957 2.1067 9.60815 5.85742 5.85742C9.60815 2.1067 14.6957 -5.79361e-10 20 0Z" />
+                    </svg>
+                </div>
             </div>
 
             <div class="pipeline-line right"></div>
 
             <!-- Shield icon -->
-            <div class="icon-node" id="node-shield">
+            <div class="icon-node node-light-left" id="node-shield">
                 <svg viewBox="0 0 24 24">
                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                     <polyline points="9 12 11 14 15 10" />
@@ -767,6 +837,7 @@
 
         let startTime = null;
         const duration = 3000;
+        const splash = document.getElementById('splash');
 
         function animate(timestamp) {
             if (!startTime) startTime = timestamp;
@@ -775,12 +846,35 @@
 
             // Move the gradient from -50% to 150% to ensure it fully passes through
             const x1 = -50 + (percentage * 200);
-            const x2 = x1 + 15; // 15% width beam (halved from 30)
+            const x2 = x1 + 15; // 15% width beam
 
             beamGradient.setAttribute('x1', `${x1}%`);
             beamGradient.setAttribute('x2', `${x2}%`);
             beamGradient.setAttribute('y1', '0%');
             beamGradient.setAttribute('y2', '0%');
+
+            // Trigger node lighting effects
+            // Left node: leaves around 25%
+            if (percentage > 0.22 && percentage < 0.35) {
+                nodeStack.classList.add('active');
+            } else {
+                nodeStack.classList.remove('active');
+            }
+
+            // Middle node splash: passes around 50%
+            if (percentage > 0.48 && percentage < 0.52) {
+                if (!splash.classList.contains('animate')) {
+                    splash.classList.add('animate');
+                    setTimeout(() => splash.classList.remove('animate'), 800);
+                }
+            }
+
+            // Right node: enters around 75%
+            if (percentage > 0.65 && percentage < 0.78) {
+                nodeShield.classList.add('active');
+            } else {
+                nodeShield.classList.remove('active');
+            }
 
             requestAnimationFrame(animate);
         }
