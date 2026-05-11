@@ -36,50 +36,24 @@
             position: relative;
         }
 
-        /* ── Concentric Circles Background ── */
-        .bg-circles {
+        /* ── Page Background ── */
+        body {
+            background-image: url('https://pub-e68758f43067417dba612b2371819aa1.r2.dev/viktor-components/spaceship.png');
+            background-size: 960px auto; /* Enlarge by 2x from 480px */
+            background-position: center 45%;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-color: var(--bg-page);
+        }
+
+        /* Dark overlay to ensure text readability and add depth */
+        body::before {
+            content: '';
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100vmax;
-            height: 100vmax;
-            z-index: 0;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2) 0%, rgba(245, 246, 248, 0.8) 100%);
+            z-index: -1;
             pointer-events: none;
-        }
-
-        .bg-circles div {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border: 1px dashed rgba(0, 0, 0, 0.07);
-            border-radius: 50%;
-        }
-
-        .circle-1 {
-            width: 280px;
-            height: 280px;
-        }
-
-        .circle-2 {
-            width: 520px;
-            height: 520px;
-        }
-
-        .circle-3 {
-            width: 760px;
-            height: 760px;
-        }
-
-        .circle-4 {
-            width: 1000px;
-            height: 1000px;
-        }
-
-        .circle-5 {
-            width: 1240px;
-            height: 1240px;
         }
 
         /* ── Navbar ── */
@@ -254,7 +228,9 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 20px 20px 60px;
+            padding: 20px 20px; /* Reduced vertical padding */
+            max-width: 650px;
+            margin: 0 auto;
             position: relative;
             z-index: 1;
         }
@@ -268,10 +244,10 @@
         }
 
         .main-title {
-            font-size: clamp(40px, 6vw, 68px);
+            font-size: clamp(32px, 5vw, 56px); /* Slightly smaller to save space */
             font-weight: 800;
-            margin-bottom: 18px;
-            letter-spacing: -2px;
+            margin-bottom: 12px;
+            letter-spacing: -1.5px;
             line-height: 1.05;
             color: #0f0f0f;
         }
@@ -279,10 +255,10 @@
         /* Subtext with inline highlighted tags */
         .subtext {
             max-width: 460px;
-            font-size: 14.5px;
+            font-size: 14px;
             color: var(--text-secondary);
-            line-height: 1.75;
-            margin-bottom: 36px;
+            line-height: 1.6;
+            margin-bottom: 24px;
             font-weight: 400;
         }
 
@@ -302,9 +278,9 @@
         /* ── Spaceship / Hero Visual ── */
         .hero-visual {
             position: relative;
-            width: 320px;
-            height: 280px;
-            margin-bottom: 36px;
+            width: 500px; /* Slightly reduced to fit better */
+            height: 300px; /* Reduced to bring cards up */
+            margin: 0 auto 24px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -345,35 +321,41 @@
 
         /* 3D Cloud — top-left */
         .icon-cloud {
-            top: 10px;
-            left: -10px;
-            font-size: 42px;
+            top: -20px;
+            left: 20px;
+            font-size: 84px; /* Enlarged */
             animation: floatSlow 7s infinite ease-in-out 0.5s;
         }
-
+ 
         /* Purple teardrop / location pin — top-right */
         .icon-heart {
-            top: 20px;
-            right: 0px;
-            font-size: 32px;
+            top: 0px;
+            right: 40px;
+            font-size: 64px; /* Enlarged */
             animation: floatSlow 5s infinite ease-in-out 1s;
         }
-
+ 
         /* Lightning bolt — bottom-right */
         .icon-lightning {
-            bottom: 50px;
-            right: -10px;
-            font-size: 30px;
+            bottom: 20px;
+            right: 20px;
+            font-size: 60px; /* Enlarged */
             animation: floatSlow 4s infinite ease-in-out 2s;
         }
 
         /* ── Navigation Cards ── */
         .nav-cards {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Side by side to save height */
+            gap: 16px;
             width: 100%;
-            max-width: 380px;
+            max-width: 650px;
+        }
+ 
+        @media (max-width: 650px) {
+            .nav-cards {
+                grid-template-columns: 1fr;
+            }
         }
 
         .card {
@@ -402,22 +384,28 @@
             text-align: left;
         }
 
-        /* Dark rounded icon container */
+        /* Gray circular icon container */
         .card-icon {
-            width: 38px;
-            height: 38px;
-            background: #111;
-            border-radius: 10px;
+            width: 60px; /* Enlarged by 1.5x from 40px */
+            height: 60px; /* Enlarged by 1.5x from 40px */
+            background: #eaecf0;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .card:hover .card-icon {
+            background: #e0e2e7;
+            transform: scale(1.05);
         }
 
         .card-icon svg {
-            width: 18px;
-            height: 18px;
-            fill: #fff;
+            width: 27px; /* Enlarged by 1.5x from 18px */
+            height: 27px; /* Enlarged by 1.5x from 18px */
+            fill: #111; /* Black icon */
         }
 
         .card-info h3 {
@@ -436,22 +424,17 @@
 
         /* Chevron arrow */
         .arrow-right {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            border: 1.5px solid rgba(0, 0, 0, 0.12);
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            color: #999;
-            font-size: 14px;
-            transition: border-color 0.2s, color 0.2s;
+            color: #111; /* Black by default */
+            font-size: 21px; /* Already enlarged by 1.5x */
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s;
         }
 
         .card:hover .arrow-right {
-            border-color: #111;
-            color: #111;
+            transform: translateX(6px); /* Slightly more shift */
         }
 
         /* ── Animations ── */
@@ -523,14 +506,7 @@
 
 <body>
 
-    <!-- Concentric Dashed Circles Background -->
-    <div class="bg-circles">
-        <div class="circle-1"></div>
-        <div class="circle-2"></div>
-        <div class="circle-3"></div>
-        <div class="circle-4"></div>
-        <div class="circle-5"></div>
-    </div>
+
 
     <!-- Navbar -->
     <nav class="navbar">
@@ -582,7 +558,6 @@
             <span class="tag-highlight">create</span> an action plan.
         </p>
 
-        <!-- Spaceship with floating decorative icons -->
         <div class="hero-visual">
             <div class="glow-effect"></div>
 
@@ -594,9 +569,8 @@
 
             <!-- Lightning bolt — bottom right -->
             <span class="floating-icon icon-lightning">⚡</span>
-
-            <img src="https://pub-e68758f43067417dba612b2371819aa1.r2.dev/viktor-components/spaceship.png"
-                alt="Floating spaceship" class="spaceship-img" />
+            
+            <!-- Foreground spaceship removed as it's now the background -->
         </div>
 
         <!-- Navigation Cards -->
@@ -607,7 +581,7 @@
                         <!-- House icon -->
                         <svg viewBox="0 0 24 24">
                             <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z" />
-                            <path d="M9 21V12h6v9" fill="rgba(255,255,255,0.3)" />
+                            <path d="M9 21V12h6v9" fill="#fff" />
                         </svg>
                     </div>
                     <div class="card-info">
@@ -624,7 +598,7 @@
                         <!-- Circle-dot / record icon -->
                         <svg viewBox="0 0 24 24">
                             <circle cx="12" cy="12" r="9" />
-                            <circle cx="12" cy="12" r="3.5" fill="#111" />
+                            <circle cx="12" cy="12" r="3.5" fill="#fff" />
                         </svg>
                     </div>
                     <div class="card-info">
