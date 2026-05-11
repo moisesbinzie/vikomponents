@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | drewl.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #000000;
+            --text-main: #1a1a1a;
+            --text-secondary: #666666;
+            --bg-page: #f8f9fb;
+            --accent-glow: rgba(180, 160, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Concentric Circles Background */
+        .bg-circles {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .bg-circles div {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px dashed rgba(0, 0, 0, 0.05);
+            border-radius: 50%;
+        }
+
+        .circle-1 { width: 300px; height: 300px; }
+        .circle-2 { width: 600px; height: 600px; }
+        .circle-3 { width: 900px; height: 900px; }
+        .circle-4 { width: 1200px; height: 1200px; }
+
+        /* Navbar */
+        .navbar {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo::before {
+            content: '';
+            width: 20px;
+            height: 20px;
+            border: 4px solid #000;
+            border-radius: 50%;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+        }
+
+        .btn-touch {
+            background: #000;
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: transform 0.3s;
+            z-index: 10;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 110;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 2px;
+            background: #000;
+            transition: 0.3s;
+        }
+
+        .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100vh;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+            z-index: 100;
+        }
+
+        .mobile-nav.active {
+            transform: translateX(0);
+        }
+
+        .mobile-nav a {
+            font-size: 24px;
+            font-weight: 600;
+            text-decoration: none;
+            color: #000;
+        }
+
+        .btn-touch:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-touch i {
+            background: rgba(255, 255, 255, 0.2);
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 10px;
+        }
+
+        /* Main Content */
+        .main-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .lost-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            opacity: 0.8;
+        }
+
+        .main-title {
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            letter-spacing: -1.5px;
+        }
+
+        .subtext {
+            max-width: 500px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        /* Spaceship Section */
+        .hero-visual {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('https://pub-e68758f43067417dba612b2371819aa1.r2.dev/viktor-components/spaceship.png');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            animation: float 6s infinite ease-in-out;
+            mask-image: radial-gradient(circle, black 60%, transparent 95%);
+            -webkit-mask-image: radial-gradient(circle, black 60%, transparent 95%);
+        }
+
+        .glow-effect {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(180, 160, 255, 0.3) 0%, transparent 70%);
+            z-index: -1;
+            animation: pulse 4s infinite ease-in-out;
+        }
+
+
+        /* Floating Elements */
+        .floating-icon {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));
+            z-index: 2;
+        }
+
+        .heart { top: -20px; right: -40px; animation: float 5s infinite ease-in-out 1s; }
+        .cloud { top: -50px; left: -60px; width: 60px; animation: float 7s infinite ease-in-out 0.5s; }
+        .lightning { bottom: 20px; right: -20px; animation: float 4s infinite ease-in-out 2s; }
+
+        /* Navigation Cards */
+        .nav-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid rgba(0,0,0,0.03);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .card-content {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            text-align: left;
+        }
+
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            background: #f0f0f0;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .card-info h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .card-info p {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .arrow-right {
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links, .navbar > .btn-touch { display: none; }
+            .hamburger { display: flex; }
+            .main-title { font-size: 40px; }
+            .circle-4, .circle-3 { display: none; }
+            .spaceship { width: 180px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="bg-circles">
+        <div class="circle-1"></div>
+        <div class="circle-2"></div>
+        <div class="circle-3"></div>
+        <div class="circle-4"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="logo">drewl.</div>
+        <div class="nav-links">
+            <a href="#">About Us</a>
+            <a href="#">Services</a>
+            <a href="#">Projects</a>
+            <a href="#">Blog</a>
+        </div>
+        <a href="#" class="btn-touch">
+            Get in Touch
+            <i>&rarr;</i>
+        </a>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <div class="mobile-nav" id="mobile-nav">
+        <a href="#">About Us</a>
+        <a href="#">Services</a>
+        <a href="#">Projects</a>
+        <a href="#">Blog</a>
+        <a href="#" class="btn-touch">Get in Touch</a>
+    </div>
+
+    <main class="main-container">
+        <p class="lost-text">You look a little lost...</p>
+        <h1 class="main-title">Ooops! Page not found</h1>
+        <p class="subtext">
+            Book a 30-minute call to discuss your plans, needs, and goals. We'll get on the same page, align and create an action plan.
+        </p>
+
+        <div class="hero-visual">
+            <div class="glow-effect"></div>
+            
+            <!-- Floating Decorative Elements -->
+            <svg class="floating-icon cloud" viewBox="0 0 24 24" fill="#E0D7FF">
+                <path d="M17.5,19c-3.037,0-5.5-2.463-5.5-5.5c0-0.106,0.005-0.21,0.013-0.313C10.748,12.55,9,10.478,9,8c0-3.314,2.686-6,6-6 c2.709,0,4.996,1.795,5.733,4.267C21.417,6.1,22,6.979,22,8c0,1.657-1.343,3-3,3v2c0,3.314-2.686,6-6,6h4.5 c0.828,0,1.5,0.672,1.5,1.5S18.328,19,17.5,19z"/>
+            </svg>
+            
+            <svg class="floating-icon heart" viewBox="0 0 24 24" fill="#FFD7F0">
+                <path d="M12,21.35l-1.45-1.32C5.4,15.36,2,12.28,2,8.5C2,5.42,4.42,3,7.5,3c1.74,0,3.41,0.81,4.5,2.09C13.09,3.81,14.76,3,16.5,3 C19.58,3,22,5.42,22,8.5c0,3.78-3.4,6.86-8.55,11.54L12,21.35z"/>
+            </svg>
+
+            <svg class="floating-icon lightning" viewBox="0 0 24 24" fill="#E0D7FF">
+                <path d="M13,2l-9,11h7v9l9-11h-7V2z"/>
+            </svg>
+        </div>
+
+        <div class="nav-cards">
+            <a href="#" class="card">
+                <div class="card-content">
+                    <div class="card-icon">🏠</div>
+                    <div class="card-info">
+                        <h3>Home Page</h3>
+                        <p>There's no place like home...</p>
+                    </div>
+                </div>
+                <div class="arrow-right">&rarr;</div>
+            </a>
+
+            <a href="#" class="card">
+                <div class="card-content">
+                    <div class="card-icon">📁</div>
+                    <div class="card-info">
+                        <h3>Projects</h3>
+                        <p>Where we talk the talk</p>
+                    </div>
+                </div>
+                <div class="arrow-right">&rarr;</div>
+            </a>
+        </div>
+    </main>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobile-nav');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mobileNav.classList.toggle('active');
+            document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : 'auto';
+        });
+
+        // Close menu on link click
+        document.querySelectorAll('.mobile-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                mobileNav.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        });
+    </script>
+</body>
+</html>

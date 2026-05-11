@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Behind the Lens</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-primary: #000000;
+            --text-secondary: #666666;
+            --accent-purple: #9b59b6;
+            --accent-green: #2ecc71;
+            --accent-orange: #e67e22;
+            --accent-blue: #3498db;
+            --border-radius: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.5;
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Header Styles */
+        header {
+            margin-bottom: 80px;
+        }
+
+        .blog-badge {
+            display: inline-block;
+            background: #f4f4f4;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #111;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 64px;
+            font-weight: 500;
+            letter-spacing: -2.5px;
+            margin-bottom: 24px;
+            line-height: 1;
+        }
+
+        .header-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 40px;
+            margin-top: -10px;
+        }
+
+        .header-description {
+            max-width: 480px;
+            color: var(--text-secondary);
+            font-size: 18px;
+            font-weight: 500;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+
+        .view-all-btn {
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .view-all-btn:hover {
+            transform: scale(1.02);
+            background: #222;
+        }
+
+        /* Featured Card */
+        .featured-post {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: #fcfcfc;
+            border: 1px solid #f0f0f0;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            margin-bottom: 40px;
+            min-height: 520px;
+            transition: var(--transition);
+        }
+
+        .featured-post:hover {
+            border-color: #e0e0e0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+        }
+
+        .image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-height: 400px;
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Corner Brackets (L shapes) */
+        .corner {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-color: rgba(255, 255, 255, 0.9);
+            border-style: solid;
+            pointer-events: none;
+        }
+
+        .corner-tl {
+            top: 15px;
+            left: 15px;
+            border-width: 1.5px 0 0 1.5px;
+        }
+
+        .corner-tr {
+            top: 15px;
+            right: 15px;
+            border-width: 1.5px 1.5px 0 0;
+        }
+
+        .corner-bl {
+            bottom: 15px;
+            left: 15px;
+            border-width: 0 0 1.5px 1.5px;
+        }
+
+        .corner-br {
+            bottom: 15px;
+            right: 15px;
+            border-width: 0 1.5px 1.5px 0;
+        }
+
+        .featured-content {
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            position: relative;
+        }
+
+        .must-read {
+            display: inline-block;
+            background: #000;
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            width: fit-content;
+        }
+
+        .featured-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 48px;
+            font-weight: 500;
+            line-height: 1.05;
+            margin-bottom: 24px;
+            letter-spacing: -1.5px;
+        }
+
+        .featured-desc {
+            color: var(--text-secondary);
+            font-size: 17px;
+            line-height: 1.5;
+            margin-bottom: 40px;
+            max-width: 95%;
+            font-weight: 400;
+        }
+
+        .featured-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .author {
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .category-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        /* Grid Section */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 120px;
+        }
+
+        .blog-card {
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .card-image {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/10;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .blog-card:hover .card-image img {
+            transform: scale(1.08);
+        }
+
+        .card-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .card-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 17px;
+            font-weight: 600;
+            line-height: 1.3;
+            color: #111;
+            max-width: 80%;
+        }
+
+        /* Hover Overlay Effect */
+        .hover-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .image-wrapper:hover .hover-overlay,
+        .card-image:hover .hover-overlay {
+            opacity: 1;
+        }
+
+        .plus-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(0px);
+            -webkit-backdrop-filter: blur(0px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 36px;
+            font-weight: 200;
+            border: none;
+            transform: scale(0.7);
+            transition: transform 0.3s ease-in-out, backdrop-filter 0.3s ease-in-out, -webkit-backdrop-filter 0.3s ease-in-out;
+            will-change: transform, backdrop-filter;
+        }
+
+        .image-wrapper:hover .plus-icon,
+        .card-image:hover .plus-icon {
+            transform: scale(1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .featured-post {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-content {
+                padding: 40px;
+            }
+
+            .blog-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 48px;
+            }
+
+            .header-bottom {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-title {
+                font-size: 32px;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="blog-badge">Blog</div>
+        <h1>Behind the lens</h1>
+        <div class="header-bottom">
+            <p class="header-description">
+                Thoughts, insights, and stories from my photography journey. Take a peek into my creative process and
+                recent projects.
+            </p>
+            <button class="view-all-btn">View all posts</button>
+        </div>
+    </header>
+
+    <main id="blog-container">
+        <!-- JS will inject content here -->
+    </main>
+
+
+
+    <script>
+        const blogsData = [
+            {
+                type: 'featured',
+                badge: 'Must Read',
+                title: 'Full-Frame vs. Crop Sensor: Which for Photography?',
+                description: 'An honest look at the real-world differences between these camera systems to help you choose what\'s actually right for your photography needs.',
+                author: 'By August Renner ©',
+                category: 'Gear',
+                image: 'https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?q=80&w=2070&auto=format&fit=crop',
+                categoryColor: '#7d1a4a'
+            },
+            {
+                type: 'standard',
+                title: 'Finding Natural Light in Unexpected Places',
+                category: 'Lighting',
+                image: 'https://images.unsplash.com/photo-1543007630-9710e4a00a20?q=80&w=1935&auto=format&fit=crop',
+                categoryColor: '#2c4c34'
+            },
+            {
+                type: 'standard',
+                title: 'My Approach to Editing: Creating a Consistent Photography Style',
+                category: 'Editing',
+                image: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=2070&auto=format&fit=crop',
+                categoryColor: '#a63e2d'
+            },
+            {
+                type: 'standard',
+                title: 'Pricing Your Photography: Strategies That Work',
+                category: 'Business',
+                image: 'https://images.unsplash.com/photo-1544377193-33dcf4d68fb5?q=80&w=2067&auto=format&fit=crop',
+                categoryColor: '#1a2b8c'
+            }
+        ];
+
+        function renderBlog() {
+            const container = document.getElementById('blog-container');
+
+            // Render Featured
+            const featured = blogsData.find(b => b.type === 'featured');
+            const featuredHtml = `
+                <section class="featured-post">
+                    <div class="image-wrapper">
+                        <img src="${featured.image}" alt="${featured.title}">
+                        <div class="corner corner-tl"></div>
+                        <div class="corner corner-tr"></div>
+                        <div class="corner corner-bl"></div>
+                        <div class="corner corner-br"></div>
+                        <div class="hover-overlay">
+                            <div class="plus-icon">+</div>
+                        </div>
+                    </div>
+                    <div class="featured-content">
+                        <div class="must-read">${featured.badge}</div>
+                        <h2 class="featured-title">${featured.title}</h2>
+                        <p class="featured-desc">${featured.description}</p>
+                        <div class="featured-footer">
+                            <span class="author">${featured.author}</span>
+                            <span class="category-badge" style="background: ${featured.categoryColor}">${featured.category}</span>
+                        </div>
+                    </div>
+                </section>
+            `;
+
+            // Render Grid
+            const standards = blogsData.filter(b => b.type === 'standard');
+            let gridHtml = '<section class="blog-grid">';
+            standards.forEach(post => {
+                gridHtml += `
+                    <article class="blog-card">
+                        <div class="card-image">
+                            <img src="${post.image}" alt="${post.title}">
+                            <div class="corner corner-tl"></div>
+                            <div class="corner corner-tr"></div>
+                            <div class="corner corner-bl"></div>
+                            <div class="corner corner-br"></div>
+                            <div class="hover-overlay">
+                                <div class="plus-icon">+</div>
+                            </div>
+                        </div>
+                        <div class="card-info">
+                            <h3 class="card-title">${post.title}</h3>
+                            <span class="category-badge" style="background: ${post.categoryColor}">${post.category}</span>
+                        </div>
+                    </article>
+                `;
+            });
+            gridHtml += '</section>';
+
+            container.innerHTML = featuredHtml + gridHtml;
+        }
+
+        document.addEventListener('DOMContentLoaded', renderBlog);
+    </script>
+</body>
+
+</html>

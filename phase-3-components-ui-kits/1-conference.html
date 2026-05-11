@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conference - Liquid Glass Design</title>
+    <meta name="description"
+        content="A premium conference dashboard design with liquid glassmorphism, featuring real-time meeting insights and immersive visuals.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --bg-light: url('https://pub-e68758f43067417dba612b2371819aa1.r2.dev/viktor-components/landscape-light.png');
+            --bg-dark: url('https://pub-e68758f43067417dba612b2371819aa1.r2.dev/viktor-components/landscape-dark.png');
+
+            --glass-bg: rgba(255, 255, 255, 0.55);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --glass-blur: 30px;
+
+            --text-main: #1a1a1a;
+            --text-muted: #6b7280;
+            --accent: #000000;
+            --card-radius: 24px;
+
+            --transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .dark-mode {
+            --glass-bg: rgba(0, 0, 0, 0.45);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --text-muted: #b0b0b0;
+            --accent: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background: var(--bg-light) no-repeat center center/cover fixed;
+            color: var(--text-main);
+            transition: background 0.8s ease;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            padding: 24px;
+        }
+
+        body.dark-mode {
+            background-image: var(--bg-dark);
+        }
+
+        /* Glassmorphism Utility */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--glass-blur)) saturate(1.8);
+            -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.8);
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            border-radius: var(--card-radius);
+            box-shadow:
+                0 4px 24px rgba(0, 0, 0, 0.06),
+                0 1px 4px rgba(0, 0, 0, 0.04),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .glass:hover {
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.08),
+                0 2px 8px rgba(0, 0, 0, 0.04),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        }
+
+        .dark-mode .glass {
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow:
+                0 4px 24px rgba(0, 0, 0, 0.2),
+                0 1px 4px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .mode-switch:hover::after {
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+        }
+
+        .glass::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            pointer-events: none;
+            filter: url(#noise-filter);
+            opacity: 0.06;
+            mix-blend-mode: overlay;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            display: grid;
+            grid-template-columns: auto auto 1fr auto auto;
+            align-items: center;
+            gap: 16px;
+            width: 100%;
+            margin-bottom: 40px;
+            z-index: 100;
+        }
+
+        .profile-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            border: none;
+        }
+
+        .profile-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            padding: 4px;
+            border-radius: 100px;
+            gap: 12px;
+        }
+
+        .mode-switch {
+            width: 88px;
+            height: 48px;
+            background: white;
+            border-radius: 100px;
+            position: relative;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+        }
+
+        .switch-track {
+            width: 76px;
+            height: 40px;
+            background: #3b82f6;
+            border-radius: 100px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 4px;
+        }
+
+        .switch-handle {
+            width: 32px;
+            height: 32px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            left: 4px;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 2;
+        }
+
+        .switch-icon {
+            color: white;
+            font-size: 14px;
+            position: absolute;
+            right: 12px;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .dark-mode .switch-handle {
+            transform: translateX(36px);
+        }
+
+        .dark-mode .switch-icon {
+            transform: translateX(-42px);
+        }
+
+        .nav-btn {
+            padding: 10px 24px;
+            border-radius: 100px;
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(16px) saturate(1.6);
+            -webkit-backdrop-filter: blur(16px) saturate(1.6);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: #1a1a1a;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .dark-mode .nav-btn {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .meeting-alert {
+            justify-self: center;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 6px 6px 6px 16px;
+            background: rgba(255, 255, 255, 0.78);
+            backdrop-filter: blur(20px) saturate(1.6);
+            -webkit-backdrop-filter: blur(20px) saturate(1.6);
+            border-radius: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: #1a1a1a;
+            font-weight: 500;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .dark-mode .meeting-alert {
+            background: rgba(255, 255, 255, 0.88);
+        }
+
+        .meeting-alert .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+
+        .meeting-alert .time-tag {
+            background: #f0f0f0;
+            padding: 4px 10px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .meeting-alert .close-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: white;
+            border: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .view-switcher {
+            display: flex;
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 4px;
+            border-radius: 100px;
+            gap: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .view-btn {
+            padding: 8px 18px;
+            border-radius: 100px;
+            border: none;
+            background: transparent;
+            color: var(--text-main);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .view-btn.active {
+            background: rgba(255, 255, 255, 0.9);
+            color: #1a1a1a;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .search-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: transparent;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-main);
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(2, 280px);
+            gap: 24px;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto auto auto;
+        }
+
+        .card {
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            border-radius: var(--card-radius);
+        }
+
+        .card:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.08),
+                0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .dark-mode .card:hover {
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.25),
+                0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .card.empty {
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.35);
+            border: 1.5px dashed rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode .card.empty {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .card.empty i {
+            font-size: 24px;
+            margin-bottom: 8px;
+            opacity: 0.45;
+        }
+
+        .card.empty span {
+            font-size: 0.9rem;
+            font-weight: 500;
+            opacity: 0.5;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.25;
+            max-width: 80%;
+            color: #1a1a1a;
+        }
+
+        .dark-mode .card-title {
+            color: #ffffff;
+        }
+
+        .card-subtitle {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            margin-top: 4px;
+        }
+
+        .card-footer {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .avatar-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .avatar-group img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .avatar-group.overlap {
+            gap: 0;
+        }
+
+        .avatar-group.overlap img {
+            margin-left: -12px;
+            border: 2px solid white;
+        }
+
+        .dark-mode .avatar-group.overlap img {
+            border-color: #1a1a1a;
+        }
+
+        .avatar-group.overlap img:first-child {
+            margin-left: 0;
+        }
+
+        .count-badge {
+            background: rgba(0, 0, 0, 0.06);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #4a4a4a;
+        }
+
+        .dark-mode .count-badge {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ccc;
+        }
+
+        /* Chart Elements (Mock) */
+        .chart-container {
+            display: flex;
+            align-items: flex-end;
+            gap: 2px;
+            height: 60px;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+
+        .bar {
+            flex: 1;
+            background: #e5e7eb;
+            transition: var(--transition);
+        }
+
+        .bar.blue {
+            background: #3b82f6;
+        }
+
+        .chart-markers {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            margin-bottom: 24px;
+        }
+
+        .marker-group {
+            display: flex;
+            align-items: center;
+            gap: -4px;
+        }
+
+        .marker-avatar {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 1.5px solid white;
+            object-fit: cover;
+        }
+
+        .large-avatars {
+            display: flex;
+            gap: 12px;
+        }
+
+        .large-avatars img {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .play-btn {
+            width: 54px;
+            height: 54px;
+            background: rgba(245, 245, 245, 0.85);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            color: #1a1a1a;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .play-btn:hover {
+            transform: scale(1.05);
+            background: rgba(240, 240, 240, 0.95);
+        }
+
+        /* Screen Share Card */
+        .screen-share-preview {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .preview-img {
+            flex: 1;
+            height: 80px;
+            border-radius: 12px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .preview-img .tag {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        /* Bottom Control Bar */
+        .bottom-bar {
+            position: fixed;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            padding: 10px 16px;
+            z-index: 1000;
+            border-radius: 100px;
+        }
+
+        .active-participants {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .floating-controls {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(30px) saturate(1.8);
+            -webkit-backdrop-filter: blur(30px) saturate(1.8);
+            border-radius: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .control-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.12);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .dark-mode .control-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.08);
+        }
+
+        .control-btn.muted,
+        .control-btn.off {
+            background: #ff4545 !important;
+            color: white !important;
+        }
+
+        .components-btn {
+            position: fixed;
+            bottom: 32px;
+            left: 32px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 2px;
+            padding: 4px;
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(16px) saturate(1.6);
+            -webkit-backdrop-filter: blur(16px) saturate(1.6);
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            z-index: 1000;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 44px;
+            height: 44px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+        }
+
+        .components-btn img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        @keyframes pulse-red {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(255, 77, 77, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 77, 77, 0);
+            }
+        }
+
+        .card.solid {
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(24px) saturate(1.6);
+            -webkit-backdrop-filter: blur(24px) saturate(1.6);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            color: #1a1a1a;
+            box-shadow:
+                0 4px 24px rgba(0, 0, 0, 0.06),
+                0 1px 4px rgba(0, 0, 0, 0.03),
+                inset 0 1px 0 rgba(255, 255, 255, 0.7);
+        }
+
+        .card.solid:hover {
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.08),
+                0 2px 8px rgba(0, 0, 0, 0.04),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+
+        .dark-mode .card.solid {
+            background: rgba(30, 30, 30, 0.75);
+            border-color: rgba(255, 255, 255, 0.08);
+            color: white;
+            box-shadow:
+                0 4px 24px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .dark-mode .card.solid:hover {
+            background: rgba(40, 40, 40, 0.85);
+        }
+
+        .card.solid .card-subtitle {
+            color: #7a7f88;
+        }
+
+        .dark-mode .card.solid .card-subtitle {
+            color: #aaa;
+        }
+
+        .card.solid .count-badge {
+            background: rgba(0, 0, 0, 0.06);
+        }
+
+        .dark-mode .card.solid .count-badge {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .active-speaker {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .active-speaker img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .participant-pill {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            opacity: 0.7;
+        }
+
+        .participant-pill img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .more-participants {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+
+
+        /* Indicators */
+        .indicators {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin: 48px 0 160px 0;
+            width: 100%;
+            z-index: 900;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: white;
+            opacity: 0.3;
+            transition: var(--transition);
+        }
+
+        .dot.active {
+            opacity: 1;
+            background: white;
+        }
+
+        .dark-mode .dot.active {
+            background: white;
+        }
+
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-auto-rows: 280px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 16px;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                grid-auto-rows: 280px; /* Same height as desktop */
+                gap: 16px;
+            }
+
+            .top-nav {
+                grid-template-columns: auto 1fr auto;
+                gap: 12px;
+                margin-bottom: 24px;
+            }
+
+            .meeting-alert {
+                display: none;
+            }
+
+            /* Enable View Switcher on Mobile */
+            .view-switcher {
+                display: flex;
+                grid-row: 2;
+                grid-column: 1 / -1;
+                width: 100%;
+                justify-content: center;
+                margin-top: 8px;
+            }
+
+            .view-btn {
+                flex: 1;
+                text-align: center;
+                font-size: 0.8rem;
+                padding: 10px 0;
+            }
+
+            .bottom-bar {
+                width: calc(100% - 32px);
+                bottom: 16px;
+                padding: 6px 12px;
+            }
+
+            .floating-controls {
+                bottom: 80px;
+                right: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Noise Filter -->
+    <svg style="position: absolute; width: 0; height: 0;">
+        <filter id="noise-filter">
+            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
+            <feComposite operator="in" in2="SourceGraphic" />
+        </filter>
+    </svg>
+
+    <header class="top-nav">
+        <div class="profile-btn">
+            <img src="https://i.pravatar.cc/100?u=current_user" alt="Profile">
+        </div>
+
+        <div class="toggle-container">
+            <div class="mode-switch" id="themeToggle">
+                <div class="switch-track">
+                    <div class="switch-handle"></div>
+                    <span class="switch-icon" id="toggleIcon">☾</span>
+                </div>
+            </div>
+            <button class="nav-btn">Settings</button>
+        </div>
+
+        <div class="meeting-alert">
+            <img src="https://i.pravatar.cc/100?u=meeting_host" class="avatar" alt="Host">
+            <span>Meeting is about to start</span>
+            <span class="time-tag">-5:23</span>
+            <div class="close-btn"><i data-lucide="x" style="width: 14px;"></i></div>
+        </div>
+
+        <div class="view-switcher">
+            <button class="view-btn">Dashboard</button>
+            <button class="view-btn active">Rooms</button>
+        </div>
+
+        <div class="search-btn">
+            <i data-lucide="search"></i>
+        </div>
+    </header>
+
+    <main class="dashboard-grid">
+        <!-- Card 1: Empty -->
+        <div class="card empty glass">
+            <i data-lucide="plus"></i>
+            <span>Create a room</span>
+        </div>
+
+        <!-- Card 2: Subscription Growth -->
+        <div class="card solid">
+            <div class="card-header">
+                <div>
+                    <h2 class="card-title">Subscription Growth Experiments</h2>
+                    <p class="card-subtitle">Sprint Retrospective</p>
+                </div>
+                <i data-lucide="zap" style="width: 16px; opacity: 0.5;"></i>
+            </div>
+            <div class="card-footer">
+                <div class="avatar-group overlap">
+                    <img src="https://i.pravatar.cc/100?u=1" alt="Avatar">
+                    <img src="https://i.pravatar.cc/100?u=2" alt="Avatar">
+                    <img src="https://i.pravatar.cc/100?u=3" alt="Avatar">
+                </div>
+                <div class="count-badge">9</div>
+            </div>
+        </div>
+
+        <!-- Card 3: Weekly Insights -->
+        <div class="card solid">
+            <div class="card-header">
+                <h2 class="card-title">Weekly Insights</h2>
+            </div>
+            <div class="chart-container">
+                <!-- 40% Blue (24 bars out of 60) -->
+                <div class="bar blue" style="height: 35%;"></div><div class="bar blue" style="height: 45%;"></div><div class="bar blue" style="height: 30%;"></div><div class="bar blue" style="height: 55%;"></div><div class="bar blue" style="height: 40%;"></div><div class="bar blue" style="height: 65%;"></div><div class="bar blue" style="height: 50%;"></div><div class="bar blue" style="height: 75%;"></div><div class="bar blue" style="height: 60%;"></div><div class="bar blue" style="height: 85%;"></div><div class="bar blue" style="height: 70%;"></div><div class="bar blue" style="height: 80%;"></div><div class="bar blue" style="height: 65%;"></div><div class="bar blue" style="height: 55%;"></div><div class="bar blue" style="height: 45%;"></div><div class="bar blue" style="height: 70%;"></div><div class="bar blue" style="height: 60%;"></div><div class="bar blue" style="height: 75%;"></div><div class="bar blue" style="height: 55%;"></div><div class="bar blue" style="height: 65%;"></div><div class="bar blue" style="height: 50%;"></div><div class="bar blue" style="height: 75%;"></div><div class="bar blue" style="height: 60%;"></div><div class="bar blue" style="height: 55%;"></div>
+                
+                <!-- 60% Grey (36 bars) -->
+                <div class="bar" style="height: 45%;"></div><div class="bar" style="height: 70%;"></div><div class="bar" style="height: 60%;"></div><div class="bar" style="height: 75%;"></div><div class="bar" style="height: 55%;"></div><div class="bar" style="height: 65%;"></div><div class="bar" style="height: 50%;"></div><div class="bar" style="height: 75%;"></div><div class="bar" style="height: 60%;"></div><div class="bar" style="height: 85%;"></div><div class="bar" style="height: 70%;"></div><div class="bar" style="height: 55%;"></div><div class="bar" style="height: 45%;"></div><div class="bar" style="height: 70%;"></div><div class="bar" style="height: 60%;"></div><div class="bar" style="height: 75%;"></div><div class="bar" style="height: 55%;"></div><div class="bar" style="height: 65%;"></div><div class="bar" style="height: 50%;"></div><div class="bar" style="height: 75%;"></div><div class="bar" style="height: 60%;"></div><div class="bar" style="height: 55%;"></div><div class="bar" style="height: 45%;"></div><div class="bar" style="height: 70%;"></div><div class="bar" style="height: 60%;"></div><div class="bar" style="height: 75%;"></div><div class="bar" style="height: 55%;"></div><div class="bar" style="height: 65%;"></div><div class="bar" style="height: 50%;"></div><div class="bar" style="height: 75%;"></div><div class="bar" style="height: 60%;"></div><div class="bar" style="height: 55%;"></div><div class="bar" style="height: 45%;"></div><div class="bar" style="height: 70%;"></div><div class="bar" style="height: 60%;"></div><div class="bar" style="height: 75%;"></div>
+            </div>
+            <div class="chart-markers">
+                <img src="https://i.pravatar.cc/100?u=m1" class="marker-avatar">
+                <div class="marker-group">
+                    <img src="https://i.pravatar.cc/100?u=m2" class="marker-avatar" style="margin-right: -8px;">
+                    <img src="https://i.pravatar.cc/100?u=m3" class="marker-avatar">
+                </div>
+                <div class="marker-group">
+                    <img src="https://i.pravatar.cc/100?u=m4" class="marker-avatar" style="margin-right: -8px;">
+                    <img src="https://i.pravatar.cc/100?u=m5" class="marker-avatar">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="large-avatars">
+                    <img src="https://i.pravatar.cc/100?u=large1" alt="Avatar">
+                    <img src="https://i.pravatar.cc/100?u=large2" alt="Avatar">
+                </div>
+                <div class="play-btn">
+                    <i data-lucide="play" fill="black" style="width: 20px;"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 4: Product Strategy -->
+        <div class="card glass">
+            <div class="card-header">
+                <div>
+                    <h2 class="card-title">Product Strategy 2023</h2>
+                    <p class="card-subtitle">No upcoming meetings</p>
+                </div>
+                <i data-lucide="more-horizontal" style="width: 16px; opacity: 0.5;"></i>
+            </div>
+            <div class="card-footer">
+                <div class="avatar-group">
+                    <img src="https://i.pravatar.cc/100?u=6" alt="Avatar">
+                </div>
+                <div class="count-badge">32</div>
+            </div>
+        </div>
+
+        <!-- Card 5: User Onboarding -->
+        <div class="card solid">
+            <div class="card-header">
+                <div>
+                    <h2 class="card-title">User Onboarding Team</h2>
+                    <p class="card-subtitle">Sprint Planning</p>
+                </div>
+                <i data-lucide="bar-chart-2" style="width: 16px; opacity: 0.5;"></i>
+            </div>
+            <div class="card-footer">
+                <div class="avatar-group">
+                    <img src="https://i.pravatar.cc/100?u=7" alt="Avatar">
+                    <img src="https://i.pravatar.cc/100?u=8" alt="Avatar">
+                    <img src="https://i.pravatar.cc/100?u=9" alt="Avatar">
+                </div>
+                <div class="count-badge">3</div>
+            </div>
+        </div>
+
+        <!-- Card 6: User & Market Research -->
+        <div class="card glass">
+            <div class="card-header">
+                <div>
+                    <h2 class="card-title">User & Market Research</h2>
+                    <p class="card-subtitle">No upcoming meetings</p>
+                </div>
+                <i data-lucide="more-horizontal" style="width: 16px; opacity: 0.5;"></i>
+            </div>
+            <div class="card-footer">
+                <div class="avatar-group">
+                    <img src="https://i.pravatar.cc/100?u=10" alt="Avatar">
+                </div>
+                <div class="count-badge">6</div>
+            </div>
+        </div>
+
+        <!-- Card 7: Core Product Team -->
+        <div class="card solid">
+            <div class="card-header">
+                <div>
+                    <h2 class="card-title">Core Product Team</h2>
+                    <p class="card-subtitle">Core Product Team</p>
+                </div>
+                <i data-lucide="video" style="width: 16px; opacity: 0.5;"></i>
+            </div>
+            <div class="card-footer">
+                <div class="avatar-group">
+                    <img src="https://i.pravatar.cc/100?u=11" alt="Avatar">
+                    <img src="https://i.pravatar.cc/100?u=12" alt="Avatar">
+                </div>
+                <div class="count-badge">2</div>
+            </div>
+        </div>
+
+        <!-- Card 8: Screen Share -->
+        <div class="card solid">
+            <div class="card-header">
+                <div class="view-switcher" style="background: rgba(0, 0, 0, 0.05); font-size: 0.7rem;">
+                    <button class="view-btn active" style="padding: 4px 10px;">Screen Share</button>
+                    <button class="view-btn" style="padding: 4px 10px;">0:30</button>
+                </div>
+            </div>
+            <div class="screen-share-preview">
+                <div class="preview-img" style="background-image: url('https://picsum.photos/seed/screen1/200/150');">
+                    <span class="tag">John</span>
+                </div>
+                <div class="preview-img" style="background-image: url('https://picsum.photos/seed/screen2/200/150');">
+                    <span class="tag">Alice</span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="avatar-group">
+                    <img src="https://i.pravatar.cc/100?u=13" alt="Avatar">
+                    <img src="https://i.pravatar.cc/100?u=14" alt="Avatar">
+                </div>
+                <div class="count-badge">8</div>
+            </div>
+        </div>
+    </main>
+
+    <div class="indicators">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+
+    <footer class="bottom-bar glass">
+        <div class="active-participants">
+            <div class="active-speaker">
+                <img src="https://i.pravatar.cc/100?u=speaker" alt="Speaker">
+            </div>
+            <div class="participant-pill">
+                <img src="https://i.pravatar.cc/100?u=p1" alt="P1">
+            </div>
+            <div class="participant-pill">
+                <img src="https://i.pravatar.cc/100?u=p2" alt="P2">
+            </div>
+            <div class="participant-pill">
+                <img src="https://i.pravatar.cc/100?u=p3" alt="P3">
+            </div>
+            <div class="more-participants">+17</div>
+        </div>
+    </footer>
+
+    <div class="components-btn">
+        <img src="https://i.pravatar.cc/100?u=c1" alt="C1">
+        <img src="https://i.pravatar.cc/100?u=c2" alt="C2">
+        <img src="https://i.pravatar.cc/100?u=c3" alt="C3">
+        <img src="https://i.pravatar.cc/100?u=c4" alt="C4">
+    </div>
+
+    <div class="floating-controls">
+        <div class="control-btn" id="videoBtn"><i data-lucide="video"></i></div>
+        <div class="control-btn" id="micBtn"><i data-lucide="mic"></i></div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Theme Toggle Logic
+        const themeToggle = document.getElementById('themeToggle');
+        const toggleIcon = document.getElementById('toggleIcon');
+        const body = document.body;
+        let isDark = false;
+
+        themeToggle.addEventListener('click', () => {
+            isDark = !isDark;
+            body.classList.toggle('dark-mode');
+            toggleIcon.innerHTML = isDark ? '☀' : '☾';
+        });
+
+        // Mute/Unmute Logic
+        const micBtn = document.getElementById('micBtn');
+        let isMuted = false;
+
+        micBtn.addEventListener('click', () => {
+            isMuted = !isMuted;
+            micBtn.classList.toggle('muted');
+            micBtn.innerHTML = isMuted ? '<i data-lucide="mic-off"></i>' : '<i data-lucide="mic"></i>';
+            lucide.createIcons();
+        });
+
+        // Video Toggle Logic
+        const videoBtn = document.getElementById('videoBtn');
+        let isVideoOff = false;
+
+        videoBtn.addEventListener('click', () => {
+            isVideoOff = !isVideoOff;
+            videoBtn.classList.toggle('off');
+            videoBtn.innerHTML = isVideoOff ? '<i data-lucide="video-off"></i>' : '<i data-lucide="video"></i>';
+            lucide.createIcons();
+        });
+
+        // View Switcher Logic
+        const viewBtns = document.querySelectorAll('.view-btn');
+        viewBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const parent = btn.parentElement;
+                parent.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+    </script>
+</body>
+
+</html>

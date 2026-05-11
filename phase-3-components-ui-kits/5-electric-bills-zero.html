@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reposit - $0 Electricity Bills</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-light: #ffffff;
+            --bg-dark: #000000;
+            --text-light: #111111;
+            --text-dark: #ffffff;
+            --active-toggle: #f5f8ea;
+            /* Light cream/green from screenshot */
+            --transition-speed: 0.9s;
+            --pull-easing: cubic-bezier(0.32, 0, 0.67, 0); /* Fast out */
+            --return-easing: cubic-bezier(0.175, 0.885, 0.32, 1.4); /* Snappy bounce */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+            overflow: hidden;
+            transition: background-color 0.5s ease;
+        }
+
+        body.light-theme {
+            background-color: var(--bg-light);
+            color: var(--text-light);
+        }
+
+        /* Blur Overlays */
+        .blur-overlay {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 10vh;
+            z-index: 2;
+            pointer-events: none;
+            backdrop-filter: blur(25px) saturate(1.5);
+            -webkit-backdrop-filter: blur(25px) saturate(1.5);
+        }
+
+        .blur-overlay-top {
+            top: 0;
+            mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+        }
+
+        .blur-overlay-bottom {
+            bottom: 0;
+            mask-image: linear-gradient(to top, black 70%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to top, black 70%, transparent 100%);
+        }
+
+        /* Hero Container */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            overflow: hidden;
+            background-image: radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0%, transparent 100%);
+            /* Texture for blur to work on */
+        }
+
+        body.light-theme .hero {
+            background-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.02) 0%, transparent 100%);
+        }
+
+        /* Background Image System */
+        .hero-bg-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .bg-front {
+            z-index: 2;
+            transition: transform 0.5s var(--return-easing), opacity 0.5s ease;
+        }
+
+        .bg-back {
+            z-index: 1;
+            filter: blur(40px);
+            transform: scale(1.1);
+            /* Prevent white edges from blur */
+        }
+
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, transparent 30%, transparent 70%, rgba(0, 0, 0, 0.8) 100%);
+            pointer-events: none;
+        }
+
+        body.light-theme .hero-bg::after {
+            background: radial-gradient(circle at center, transparent 0%, rgba(255, 255, 255, 0.2) 100%),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0%, transparent 30%, transparent 70%, rgba(255, 255, 255, 0.8) 100%);
+        }
+
+        /* Navbar */
+        .navbar {
+            width: 100%;
+            max-width: 1400px;
+            padding: 24px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 110;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            z-index: 120;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 28px;
+            height: 2px;
+            background: currentColor;
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            height: 32px;
+            filter: invert(1);
+        }
+
+        body.light-theme .logo {
+            filter: invert(0);
+        }
+
+        .brand-name {
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            color: inherit;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+        }
+
+        .cta-button {
+            background: #fff;
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        body.light-theme .cta-button {
+            background: #000;
+            color: #fff;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Hero Content */
+        .hero-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+            z-index: 5;
+        }
+
+        .hero-title {
+            font-size: 72px;
+            font-weight: 700;
+            line-height: 1.1;
+            max-width: 800px;
+            margin-bottom: 40px;
+            letter-spacing: -1px;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 42px;
+                margin-bottom: 30px;
+            }
+            
+            .navbar {
+                padding: 16px 20px;
+            }
+
+            .nav-links {
+                display: none; /* Hidden by default on mobile */
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 100%;
+                height: 100vh;
+                background: var(--bg-dark);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                z-index: 100;
+                gap: 40px;
+                transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+                transform: translateX(100%);
+            }
+
+            body.light-theme .nav-links {
+                background: var(--bg-light);
+            }
+
+            .nav-links.active {
+                display: flex;
+                transform: translateX(0);
+            }
+
+            .nav-links a {
+                font-size: 24px;
+                font-weight: 600;
+            }
+
+            .cta-button.nav-cta {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex !important;
+            }
+
+            .theme-toggle {
+                flex-direction: row;
+                width: calc(100% - 40px);
+                max-width: 400px;
+            }
+
+            .toggle-btn {
+                padding: 12px 20px;
+                flex: 1;
+            }
+        }
+
+        .title-accent {
+            transition: color 0.5s ease;
+        }
+
+        body:not(.light-theme) .title-accent {
+            color: #000000;
+        }
+
+        body.light-theme .title-accent {
+            color: white;
+        }
+
+        body.light-theme .hero-title {
+            color: rgba(26, 26, 26, 0.95);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px;
+            border-radius: 16px;
+            display: flex;
+            gap: 4px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        body.light-theme .theme-toggle {
+            background: rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .toggle-btn {
+            padding: 12px 40px;
+            border-radius: 12px;
+            border: none;
+            background: transparent;
+            color: inherit;
+            cursor: pointer;
+            z-index: 1;
+            transition: color 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .toggle-btn .label {
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .toggle-btn .subtext {
+            font-size: 11px;
+            opacity: 0.6;
+        }
+
+        .toggle-indicator {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: calc(50% - 10px);
+            height: calc(100% - 16px);
+            background: var(--active-toggle);
+            border-radius: 12px;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        body:not(.light-theme) .toggle-indicator {
+            transform: translateX(100%);
+        }
+
+        .toggle-btn.active {
+            color: #111 !important;
+            /* Active text is always dark on the cream background */
+        }
+
+        /* Footer Text */
+        .hero-footer {
+            max-width: 600px;
+            padding-bottom: 60px;
+            opacity: 0.8;
+            font-size: 16px;
+            line-height: 1.6;
+            z-index: 5;
+        }
+
+        /* Animations */
+        .pull-down {
+            transform: translateY(20vh) !important;
+            opacity: 0.8 !important;
+            transition: transform 0.3s var(--pull-easing), opacity 0.3s ease !important;
+        }
+
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content>* {
+            animation: fadeIn 1s ease forwards;
+        }
+
+        .hero-title {
+            animation-delay: 0.2s;
+        }
+
+        .theme-toggle {
+            animation-delay: 0.4s;
+        }
+
+        .hero-footer {
+            animation-delay: 0.6s;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="hero">
+        <!-- Blur Overlays -->
+        <div class="blur-overlay blur-overlay-top"></div>
+        <div class="blur-overlay blur-overlay-bottom"></div>
+
+        <!-- Background Wrapper -->
+        <div class="hero-bg-wrapper">
+            <div id="hero-bg-back" class="hero-bg bg-back"></div>
+            <div id="hero-bg-front" class="hero-bg bg-front"></div>
+        </div>
+
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="logo-container">
+                <img src="https://pub-f170a2592d2c4a1485466404c36807be.r2.dev/Tests/logoipsum-415.svg" alt="Reposit"
+                    class="logo">
+                <span class="brand-name">reposit</span>
+            </div>
+            <div class="nav-links" id="nav-menu">
+                <a href="#">How It Works</a>
+                <a href="#">Our Cases</a>
+                <a href="#">About Us</a>
+                <a href="#">Careers</a>
+                <a href="#">Resources</a>
+                <a href="#">Customers</a>
+            </div>
+            <button class="cta-button nav-cta">Get an Instant Quote</button>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+
+        <!-- Hero Content -->
+        <div class="hero-content">
+            <h1 class="hero-title">$0 Electricity Bills <span class="title-accent">for the next</span> 7 Years</h1>
+
+            <div class="theme-toggle">
+                <div class="toggle-indicator"></div>
+                <button class="toggle-btn active" id="morning-btn">
+                    <span class="label">Morning</span>
+                    <span class="subtext">$0 for Electricity</span>
+                </button>
+                <button class="toggle-btn" id="night-btn">
+                    <span class="label">Night</span>
+                    <span class="subtext">$0 for Electricity</span>
+                </button>
+            </div>
+
+            <p class="hero-footer">
+                Forget the energy market, weather conditions and seasons; our Smart Controller guarantees you get no
+                electricity bill for seven years.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const body = document.body;
+        const bgFront = document.getElementById('hero-bg-front');
+        const bgBack = document.getElementById('hero-bg-back');
+        const morningBtn = document.getElementById('morning-btn');
+        const nightBtn = document.getElementById('night-btn');
+
+        const lightImg = 'https://pub-e68758f43067417dba612b2371819aa1.r2.dev/viktor-components/house-light.png';
+        const darkImg = 'https://pub-e68758f43067417dba612b2371819aa1.r2.dev/viktor-components/house-dark.png';
+
+        // Initial State
+        let isDark = true;
+        bgFront.style.backgroundImage = `url(${darkImg})`;
+        bgBack.style.backgroundImage = `url(${darkImg})`;
+
+        const toggleTheme = (toDark) => {
+            if (isDark === toDark) return;
+            isDark = toDark;
+
+            const targetImg = isDark ? darkImg : lightImg;
+
+            // 1. Prepare the back image with the NEW theme
+            bgBack.style.backgroundImage = `url(${targetImg})`;
+
+            // 2. Trigger front pull down animation
+            bgFront.classList.add('pull-down');
+
+            // 3. Mid-way (at 40% down): Change theme colors and UI
+            setTimeout(() => {
+                if (isDark) {
+                    body.classList.remove('light-theme');
+                    nightBtn.classList.add('active');
+                    morningBtn.classList.remove('active');
+                } else {
+                    body.classList.add('light-theme');
+                    morningBtn.classList.add('active');
+                    nightBtn.classList.remove('active');
+                }
+
+                // 4. Update the front image to the new theme while it's down
+                bgFront.style.backgroundImage = `url(${targetImg})`;
+
+                // 5. Trigger return
+                setTimeout(() => {
+                    bgFront.classList.remove('pull-down');
+                }, 30); 
+
+            }, 300); // Matching the 0.3s duration
+        };
+
+        morningBtn.addEventListener('click', () => toggleTheme(false));
+        nightBtn.addEventListener('click', () => toggleTheme(true));
+
+        // Mobile Menu Logic
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            // Prevent body scroll when menu is open
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'hidden'; // Actually hidden already
+        });
+
+        // Close menu on link click
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+    </script>
+</body>
+
+</html>
