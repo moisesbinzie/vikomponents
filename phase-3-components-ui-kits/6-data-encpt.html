@@ -253,7 +253,7 @@
             position: relative;
             z-index: 3;
             /* Neumorphic effect */
-            box-shadow: 
+            box-shadow:
                 6px 6px 12px rgba(0, 0, 0, 0.4),
                 -4px -4px 10px rgba(255, 255, 255, 0.03),
                 inset 1px 1px 1px rgba(255, 255, 255, 0.05);
@@ -263,14 +263,14 @@
 
         .icon-node:hover {
             transform: translateY(-1px);
-            box-shadow: 
+            box-shadow:
                 8px 8px 16px rgba(0, 0, 0, 0.5),
                 -5px -5px 12px rgba(255, 255, 255, 0.04);
         }
 
         .icon-node:active {
             transform: translateY(0);
-            box-shadow: 
+            box-shadow:
                 inset 4px 4px 8px rgba(0, 0, 0, 0.5),
                 inset -3px -3px 8px rgba(255, 255, 255, 0.02);
         }
@@ -298,7 +298,7 @@
             position: relative;
             z-index: 3;
             /* Enhanced neumorphic effect for center node */
-            box-shadow: 
+            box-shadow:
                 8px 8px 16px rgba(0, 0, 0, 0.5),
                 -6px -6px 14px rgba(255, 255, 255, 0.04),
                 inset 1px 1px 2px rgba(255, 255, 255, 0.06);
@@ -308,14 +308,14 @@
 
         .icon-node-center:hover {
             transform: translateY(-1px);
-            box-shadow: 
+            box-shadow:
                 10px 10px 20px rgba(0, 0, 0, 0.6),
                 -7px -7px 16px rgba(255, 255, 255, 0.05);
         }
 
         .icon-node-center:active {
             transform: translateY(0);
-            box-shadow: 
+            box-shadow:
                 inset 6px 6px 12px rgba(0, 0, 0, 0.6),
                 inset -4px -4px 12px rgba(255, 255, 255, 0.03);
         }
@@ -378,7 +378,8 @@
             border-radius: 50%;
             background: radial-gradient(circle, rgba(255, 77, 200, 0.6) 0%, transparent 70%);
             pointer-events: none;
-            z-index: 2; /* Lower than nodes (3) but higher than lines (1) */
+            z-index: 2;
+            /* Lower than nodes (3) but higher than lines (1) */
             opacity: 0;
             transform: scale(0.4);
         }
@@ -388,9 +389,19 @@
         }
 
         @keyframes splash-anim {
-            0% { transform: scale(0.4); opacity: 0.8; }
-            40% { opacity: 0.6; }
-            100% { transform: scale(1.4); opacity: 0; }
+            0% {
+                transform: scale(0.4);
+                opacity: 0.8;
+            }
+
+            40% {
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: scale(1.4);
+                opacity: 0;
+            }
         }
 
         /* ─── HERO TEXT ─── */
@@ -608,7 +619,8 @@
 
         @media (max-width: 480px) {
             .icon-pipeline {
-                transform: scale(1); /* Maintain size */
+                transform: scale(1);
+                /* Maintain size */
             }
 
             .hero-card {
@@ -861,8 +873,8 @@
                 nodeStack.classList.remove('active');
             }
 
-            // Middle node splash: passes around 50%
-            if (percentage > 0.48 && percentage < 0.52) {
+            // Middle node splash: hits around 44-46%
+            if (percentage > 0.44 && percentage < 0.48) {
                 if (!splash.classList.contains('animate')) {
                     splash.classList.add('animate');
                     setTimeout(() => splash.classList.remove('animate'), 800);
