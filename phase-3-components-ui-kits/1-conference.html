@@ -68,7 +68,7 @@
             background: var(--glass-bg);
             backdrop-filter: blur(var(--glass-blur)) saturate(1.8);
             -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.8);
-            border: 1px solid rgba(255, 255, 255, 0.45);
+            border: none;
             border-radius: var(--card-radius);
             box-shadow:
                 0 4px 24px rgba(0, 0, 0, 0.06),
@@ -86,7 +86,7 @@
         }
 
         .dark-mode .glass {
-            border-color: rgba(255, 255, 255, 0.1);
+            border: none;
             box-shadow:
                 0 4px 24px rgba(0, 0, 0, 0.2),
                 0 1px 4px rgba(0, 0, 0, 0.15),
@@ -106,6 +106,36 @@
             filter: url(#noise-filter);
             opacity: 0.06;
             mix-blend-mode: overlay;
+        }
+
+        .card.glass {
+            background: rgba(0, 0, 0, 0.080);
+            backdrop-filter: blur(var(--glass-blur)) saturate(2.2);
+            -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(2.2);
+            border: none;
+            color: white;
+            box-shadow:
+                0 4px 24px rgba(0, 0, 0, 0.04),
+                inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        }
+
+        .card.glass .card-title {
+            color: white;
+        }
+
+        .card.glass .card-subtitle {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .card.glass i,
+        .card.glass span {
+            color: white;
+            opacity: 0.9;
+        }
+
+        .card.glass .count-badge {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
         }
 
         /* Top Navigation */
@@ -421,11 +451,11 @@
 
         .avatar-group.overlap img {
             margin-left: -12px;
-            border: 2px solid white;
+            border: none;
         }
 
         .dark-mode .avatar-group.overlap img {
-            border-color: #1a1a1a;
+            border: none;
         }
 
         .avatar-group.overlap img:first-child {
@@ -664,7 +694,7 @@
             background: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(20px) saturate(1.4);
             -webkit-backdrop-filter: blur(20px) saturate(1.4);
-            border: 1px solid rgba(255, 255, 255, 0.8);
+            border: none;
             color: #1a1a1a;
             box-shadow:
                 0 4px 20px rgba(0, 0, 0, 0.05),
@@ -682,7 +712,7 @@
 
         .dark-mode .card.solid {
             background: rgba(30, 30, 30, 0.75);
-            border-color: rgba(255, 255, 255, 0.08);
+            border: none;
             color: white;
             box-shadow:
                 0 4px 24px rgba(0, 0, 0, 0.2),
@@ -713,27 +743,80 @@
             width: 44px;
             height: 44px;
             border-radius: 50%;
-            overflow: hidden;
+            position: relative;
         }
 
         .active-speaker img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            border-radius: 50%;
         }
 
         .participant-pill {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            overflow: hidden;
             opacity: 0.7;
+            position: relative;
         }
 
         .participant-pill img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            border-radius: 50%;
+        }
+
+        /* Voice Wave Animation */
+        .voice-indicator {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background: white;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5px;
+            border: none;
+            z-index: 10;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode .voice-indicator {
+            background: white; /* Maintain white bg for visibility as requested */
+            border: none;
+        }
+
+        .wave-bar {
+            width: 2px;
+            height: 6px;
+            background: #4b5563; /* Deep grey */
+            border-radius: 1px;
+            animation: voice-wave 1s ease-in-out infinite;
+        }
+
+        .wave-bar:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .wave-bar:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes voice-wave {
+
+            0%,
+            100% {
+                height: 4px;
+            }
+
+            50% {
+                height: 10px;
+            }
         }
 
         .more-participants {
@@ -793,7 +876,8 @@
 
             .dashboard-grid {
                 grid-template-columns: 1fr;
-                grid-auto-rows: 280px; /* Same height as desktop */
+                grid-auto-rows: 280px;
+                /* Same height as desktop */
                 gap: 16px;
             }
 
@@ -828,6 +912,11 @@
                 width: calc(100% - 32px);
                 bottom: 16px;
                 padding: 6px 12px;
+            }
+
+            .components-btn {
+                bottom: 80px;
+                left: 16px;
             }
 
             .floating-controls {
@@ -912,10 +1001,68 @@
             </div>
             <div class="chart-container">
                 <!-- 40% Blue (24 bars out of 60) -->
-                <div class="bar blue" style="height: 35%;"></div><div class="bar blue" style="height: 45%;"></div><div class="bar blue" style="height: 30%;"></div><div class="bar blue" style="height: 55%;"></div><div class="bar blue" style="height: 40%;"></div><div class="bar blue" style="height: 65%;"></div><div class="bar blue" style="height: 50%;"></div><div class="bar blue" style="height: 75%;"></div><div class="bar blue" style="height: 60%;"></div><div class="bar blue" style="height: 85%;"></div><div class="bar blue" style="height: 70%;"></div><div class="bar blue" style="height: 80%;"></div><div class="bar blue" style="height: 65%;"></div><div class="bar blue" style="height: 55%;"></div><div class="bar blue" style="height: 45%;"></div><div class="bar blue" style="height: 70%;"></div><div class="bar blue" style="height: 60%;"></div><div class="bar blue" style="height: 75%;"></div><div class="bar blue" style="height: 55%;"></div><div class="bar blue" style="height: 65%;"></div><div class="bar blue" style="height: 50%;"></div><div class="bar blue" style="height: 75%;"></div><div class="bar blue" style="height: 60%;"></div><div class="bar blue" style="height: 55%;"></div>
-                
+                <div class="bar blue" style="height: 35%;"></div>
+                <div class="bar blue" style="height: 45%;"></div>
+                <div class="bar blue" style="height: 30%;"></div>
+                <div class="bar blue" style="height: 55%;"></div>
+                <div class="bar blue" style="height: 40%;"></div>
+                <div class="bar blue" style="height: 65%;"></div>
+                <div class="bar blue" style="height: 50%;"></div>
+                <div class="bar blue" style="height: 75%;"></div>
+                <div class="bar blue" style="height: 60%;"></div>
+                <div class="bar blue" style="height: 85%;"></div>
+                <div class="bar blue" style="height: 70%;"></div>
+                <div class="bar blue" style="height: 80%;"></div>
+                <div class="bar blue" style="height: 65%;"></div>
+                <div class="bar blue" style="height: 55%;"></div>
+                <div class="bar blue" style="height: 45%;"></div>
+                <div class="bar blue" style="height: 70%;"></div>
+                <div class="bar blue" style="height: 60%;"></div>
+                <div class="bar blue" style="height: 75%;"></div>
+                <div class="bar blue" style="height: 55%;"></div>
+                <div class="bar blue" style="height: 65%;"></div>
+                <div class="bar blue" style="height: 50%;"></div>
+                <div class="bar blue" style="height: 75%;"></div>
+                <div class="bar blue" style="height: 60%;"></div>
+                <div class="bar blue" style="height: 55%;"></div>
+
                 <!-- 60% Grey (36 bars) -->
-                <div class="bar" style="height: 45%;"></div><div class="bar" style="height: 70%;"></div><div class="bar" style="height: 60%;"></div><div class="bar" style="height: 75%;"></div><div class="bar" style="height: 55%;"></div><div class="bar" style="height: 65%;"></div><div class="bar" style="height: 50%;"></div><div class="bar" style="height: 75%;"></div><div class="bar" style="height: 60%;"></div><div class="bar" style="height: 85%;"></div><div class="bar" style="height: 70%;"></div><div class="bar" style="height: 55%;"></div><div class="bar" style="height: 45%;"></div><div class="bar" style="height: 70%;"></div><div class="bar" style="height: 60%;"></div><div class="bar" style="height: 75%;"></div><div class="bar" style="height: 55%;"></div><div class="bar" style="height: 65%;"></div><div class="bar" style="height: 50%;"></div><div class="bar" style="height: 75%;"></div><div class="bar" style="height: 60%;"></div><div class="bar" style="height: 55%;"></div><div class="bar" style="height: 45%;"></div><div class="bar" style="height: 70%;"></div><div class="bar" style="height: 60%;"></div><div class="bar" style="height: 75%;"></div><div class="bar" style="height: 55%;"></div><div class="bar" style="height: 65%;"></div><div class="bar" style="height: 50%;"></div><div class="bar" style="height: 75%;"></div><div class="bar" style="height: 60%;"></div><div class="bar" style="height: 55%;"></div><div class="bar" style="height: 45%;"></div><div class="bar" style="height: 70%;"></div><div class="bar" style="height: 60%;"></div><div class="bar" style="height: 75%;"></div>
+                <div class="bar" style="height: 45%;"></div>
+                <div class="bar" style="height: 70%;"></div>
+                <div class="bar" style="height: 60%;"></div>
+                <div class="bar" style="height: 75%;"></div>
+                <div class="bar" style="height: 55%;"></div>
+                <div class="bar" style="height: 65%;"></div>
+                <div class="bar" style="height: 50%;"></div>
+                <div class="bar" style="height: 75%;"></div>
+                <div class="bar" style="height: 60%;"></div>
+                <div class="bar" style="height: 85%;"></div>
+                <div class="bar" style="height: 70%;"></div>
+                <div class="bar" style="height: 55%;"></div>
+                <div class="bar" style="height: 45%;"></div>
+                <div class="bar" style="height: 70%;"></div>
+                <div class="bar" style="height: 60%;"></div>
+                <div class="bar" style="height: 75%;"></div>
+                <div class="bar" style="height: 55%;"></div>
+                <div class="bar" style="height: 65%;"></div>
+                <div class="bar" style="height: 50%;"></div>
+                <div class="bar" style="height: 75%;"></div>
+                <div class="bar" style="height: 60%;"></div>
+                <div class="bar" style="height: 55%;"></div>
+                <div class="bar" style="height: 45%;"></div>
+                <div class="bar" style="height: 70%;"></div>
+                <div class="bar" style="height: 60%;"></div>
+                <div class="bar" style="height: 75%;"></div>
+                <div class="bar" style="height: 55%;"></div>
+                <div class="bar" style="height: 65%;"></div>
+                <div class="bar" style="height: 50%;"></div>
+                <div class="bar" style="height: 75%;"></div>
+                <div class="bar" style="height: 60%;"></div>
+                <div class="bar" style="height: 55%;"></div>
+                <div class="bar" style="height: 45%;"></div>
+                <div class="bar" style="height: 70%;"></div>
+                <div class="bar" style="height: 60%;"></div>
+                <div class="bar" style="height: 75%;"></div>
             </div>
             <div class="chart-markers">
                 <img src="https://i.pravatar.cc/100?u=m1" class="marker-avatar">
@@ -1045,12 +1192,22 @@
     <footer class="bottom-bar glass">
         <div class="active-participants">
             <div class="active-speaker">
+                <div class="voice-indicator">
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                </div>
                 <img src="https://i.pravatar.cc/100?u=speaker" alt="Speaker">
             </div>
             <div class="participant-pill">
                 <img src="https://i.pravatar.cc/100?u=p1" alt="P1">
             </div>
             <div class="participant-pill">
+                <div class="voice-indicator">
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                </div>
                 <img src="https://i.pravatar.cc/100?u=p2" alt="P2">
             </div>
             <div class="participant-pill">
