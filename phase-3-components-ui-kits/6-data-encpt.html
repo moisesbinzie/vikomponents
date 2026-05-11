@@ -245,16 +245,34 @@
             width: 46px;
             height: 46px;
             border-radius: 50%;
-            background: rgba(20, 15, 25, 0.95);
-            /* More opaque background */
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: #1a1a24;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
             position: relative;
             z-index: 3;
-            backdrop-filter: blur(4px);
+            /* Neumorphic effect */
+            box-shadow: 
+                6px 6px 12px rgba(0, 0, 0, 0.4),
+                -4px -4px 10px rgba(255, 255, 255, 0.03),
+                inset 1px 1px 1px rgba(255, 255, 255, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .icon-node:hover {
+            transform: translateY(-1px);
+            box-shadow: 
+                8px 8px 16px rgba(0, 0, 0, 0.5),
+                -5px -5px 12px rgba(255, 255, 255, 0.04);
+        }
+
+        .icon-node:active {
+            transform: translateY(0);
+            box-shadow: 
+                inset 4px 4px 8px rgba(0, 0, 0, 0.5),
+                inset -3px -3px 8px rgba(255, 255, 255, 0.02);
         }
 
         .icon-node svg {
@@ -272,15 +290,34 @@
             width: 64px;
             height: 64px;
             border-radius: 50%;
-            background: #1a0e2a;
-            border: 1.5px solid rgba(255, 255, 255, 0.18);
+            background: #1e1e2c;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.04);
             position: relative;
             z-index: 3;
+            /* Enhanced neumorphic effect for center node */
+            box-shadow: 
+                8px 8px 16px rgba(0, 0, 0, 0.5),
+                -6px -6px 14px rgba(255, 255, 255, 0.04),
+                inset 1px 1px 2px rgba(255, 255, 255, 0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .icon-node-center:hover {
+            transform: translateY(-1px);
+            box-shadow: 
+                10px 10px 20px rgba(0, 0, 0, 0.6),
+                -7px -7px 16px rgba(255, 255, 255, 0.05);
+        }
+
+        .icon-node-center:active {
+            transform: translateY(0);
+            box-shadow: 
+                inset 6px 6px 12px rgba(0, 0, 0, 0.6),
+                inset -4px -4px 12px rgba(255, 255, 255, 0.03);
         }
 
         .icon-node-center svg {
@@ -584,10 +621,10 @@
 
             <!-- Center Xero logo -->
             <div class="icon-node-center" id="node-x">
-                <!-- X mark SVG -->
-                <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+                <!-- Logoipsum SVG -->
+                <svg viewBox="0 0 40 40" fill="white" xmlns="http://www.w3.org/2000/svg">
                     <path
-                        d="M18.36 5.64a1 1 0 0 0-1.41 0L12 10.59 7.05 5.64A1 1 0 1 0 5.64 7.05L10.59 12l-4.95 4.95a1 1 0 1 0 1.41 1.41L12 13.41l4.95 4.95a1 1 0 0 0 1.41-1.41L13.41 12l4.95-4.95a1 1 0 0 0 0-1.41z" />
+                        d="M20 0C25.3043 4.00466e-07 30.3919 2.10669 34.1426 5.85742C34.8157 6.53058 35.4354 7.24719 36 8H20C16.8174 8 13.7651 9.26421 11.5146 11.5146C9.26421 13.7651 8 16.8174 8 20H20L36.9102 9.31934C38.1656 11.3074 39.0611 13.5027 39.5547 15.8027L32 20H40L39.9941 20.4971C39.8669 25.6213 37.776 30.5092 34.1426 34.1426C30.3919 37.8933 25.3043 40 20 40C14.6957 40 9.60815 37.8933 5.85742 34.1426C5.18426 33.4694 4.56459 32.7528 4 32H20C23.1826 32 26.2349 30.7358 28.4854 28.4854C30.5952 26.3755 31.8383 23.5608 31.9854 20.5947L32 20H20L3.08984 30.6787C1.83452 28.6906 0.941002 26.4951 0.447266 24.1953L8 20H0C8.00931e-07 14.6957 2.1067 9.60815 5.85742 5.85742C9.60815 2.1067 14.6957 -5.79361e-10 20 0Z" />
                 </svg>
             </div>
 
