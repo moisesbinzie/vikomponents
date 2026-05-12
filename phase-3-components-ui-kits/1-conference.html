@@ -23,12 +23,12 @@
 
             --glass-bg: rgba(255, 255, 255, 0.55);
             --glass-border: rgba(255, 255, 255, 0.6);
-            --glass-blur: 30px;
+            --glass-blur: 8px;
 
             --text-main: #1a1a1a;
             --text-muted: #6b7280;
             --accent: #000000;
-            --card-radius: 24px;
+            --card-radius: 40px;
 
             --transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
         }
@@ -49,14 +49,14 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-            background: var(--bg-light) no-repeat center center/cover fixed;
+            height: 100vh;
+            background: var(--bg-light) no-repeat center bottom/cover fixed;
             color: var(--text-main);
             transition: background 0.8s ease;
             display: flex;
             flex-direction: column;
-            overflow-x: hidden;
-            padding: 24px;
+            overflow: hidden;
+            padding: 32px 40px;
         }
 
         body.dark-mode {
@@ -109,14 +109,21 @@
         }
 
         .card.glass {
-            background: rgba(0, 0, 0, 0.080);
-            backdrop-filter: blur(var(--glass-blur)) saturate(2.2);
-            -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(2.2);
+            background: rgba(0, 0, 0, 0.04);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             border: none;
             color: white;
-            box-shadow:
-                0 4px 24px rgba(0, 0, 0, 0.04),
-                inset 0 1px 0 rgba(255, 255, 255, 0.12);
+            box-shadow: none;
+        }
+
+        .dark-mode .card.glass {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            box-shadow: none;
         }
 
         .card.glass .card-title {
@@ -124,13 +131,13 @@
         }
 
         .card.glass .card-subtitle {
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.7);
         }
 
         .card.glass i,
         .card.glass span {
             color: white;
-            opacity: 0.9;
+            opacity: 0.8;
         }
 
         .card.glass .count-badge {
@@ -204,7 +211,7 @@
             background: white;
             border-radius: 50%;
             position: absolute;
-            left: 4px;
+            right: 4px;
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 2;
         }
@@ -213,33 +220,33 @@
             color: white;
             font-size: 14px;
             position: absolute;
-            right: 12px;
+            left: 12px;
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 1;
             pointer-events: none;
         }
 
         .dark-mode .switch-handle {
-            transform: translateX(36px);
+            transform: translateX(-36px);
         }
 
         .dark-mode .switch-icon {
-            transform: translateX(-42px);
+            transform: translateX(42px);
         }
 
         .nav-btn {
             padding: 10px 24px;
             border-radius: 100px;
-            background: rgba(255, 255, 255, 0.55);
-            backdrop-filter: blur(16px) saturate(1.6);
-            -webkit-backdrop-filter: blur(16px) saturate(1.6);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            color: #1a1a1a;
+            background: rgba(0, 0, 0, 0.04);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: none;
+            color: white;
             font-weight: 500;
             font-size: 0.9rem;
             cursor: pointer;
             transition: var(--transition);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            box-shadow: none;
         }
 
         .nav-btn:hover {
@@ -258,15 +265,15 @@
             align-items: center;
             gap: 12px;
             padding: 6px 6px 6px 16px;
-            background: rgba(255, 255, 255, 0.78);
-            backdrop-filter: blur(20px) saturate(1.6);
-            -webkit-backdrop-filter: blur(20px) saturate(1.6);
+            background: #ffffff;
+            backdrop-filter: blur(6px) saturate(1.6);
+            -webkit-backdrop-filter: blur(6px) saturate(1.6);
             border-radius: 100px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border: none;
             color: #1a1a1a;
             font-weight: 500;
             font-size: 0.9rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
 
         .dark-mode .meeting-alert {
@@ -288,26 +295,44 @@
         }
 
         .meeting-alert .close-btn {
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            background: white;
-            border: 1px solid #eee;
+            background: transparent;
+            border: none;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .meeting-alert .close-btn svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .meeting-alert .close-btn:hover {
+            opacity: 0.8;
         }
 
         .view-switcher {
             display: flex;
-            background: rgba(255, 255, 255, 0.35);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(0, 0, 0, 0.04);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             padding: 4px;
             border-radius: 100px;
             gap: 4px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: none;
+        }
+
+        .dark-mode .view-switcher {
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .view-btn {
@@ -315,44 +340,59 @@
             border-radius: 100px;
             border: none;
             background: transparent;
-            color: var(--text-main);
+            color: rgba(255, 255, 255, 0.85);
             font-weight: 500;
             cursor: pointer;
             transition: var(--transition);
         }
 
         .view-btn.active {
-            background: rgba(255, 255, 255, 0.9);
-            color: #1a1a1a;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            background: #ffffff;
+            color: #000000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .search-btn {
             width: 48px;
             height: 48px;
             border-radius: 50%;
-            background: transparent;
+            background: rgba(0, 0, 0, 0.04);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             border: none;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            color: var(--text-main);
+            color: white;
+            transition: var(--transition);
+        }
+
+        .search-btn:hover {
+            background: rgba(0, 0, 0, 0.08);
+            transform: scale(1.05);
+        }
+
+        .dark-mode .search-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
         }
 
         /* Dashboard Grid */
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(2, 280px);
+            grid-template-rows: repeat(2, 1fr);
             gap: 24px;
             width: 100%;
             max-width: 1400px;
-            margin: 0 auto auto auto;
+            margin: 0 auto;
+            flex: 1;
+            min-height: 0;
         }
 
         .card {
-            padding: 28px;
+            padding: 28px 20px;
             display: flex;
             flex-direction: column;
             position: relative;
@@ -377,8 +417,9 @@
         .card.empty {
             justify-content: center;
             align-items: center;
-            background: rgba(255, 255, 255, 0.35);
+            background: rgba(0, 0, 0, 0.18);
             border: none;
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .dark-mode .card.empty {
@@ -387,15 +428,17 @@
         }
 
         .card.empty i {
-            font-size: 24px;
-            margin-bottom: 8px;
-            opacity: 0.45;
+            font-size: 32px;
+            margin-bottom: 12px;
+            opacity: 0.9;
+            color: white;
         }
 
         .card.empty span {
             font-size: 0.9rem;
             font-weight: 500;
-            opacity: 0.5;
+            opacity: 0.8;
+            color: white;
         }
 
         .card-header {
@@ -406,11 +449,11 @@
         }
 
         .card-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            line-height: 1.25;
-            max-width: 80%;
+            font-size: 1.35rem;
+            font-weight: 400;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+            max-width: 90%;
             color: #1a1a1a;
         }
 
@@ -419,10 +462,10 @@
         }
 
         .card-subtitle {
-            font-size: 0.82rem;
-            color: var(--text-muted);
+            font-size: 0.85rem;
+            color: #8b92a1;
             font-weight: 400;
-            margin-top: 4px;
+            margin-top: 6px;
         }
 
         .card-footer {
@@ -463,16 +506,16 @@
         }
 
         .count-badge {
-            background: rgba(0, 0, 0, 0.06);
-            width: 36px;
-            height: 36px;
+            background: rgba(0, 0, 0, 0.08);
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #4a4a4a;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: #1a1a1a;
         }
 
         .dark-mode .count-badge {
@@ -542,11 +585,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
             color: #1a1a1a;
             cursor: pointer;
             transition: var(--transition);
-            border: 1px solid rgba(0, 0, 0, 0.04);
+            box-shadow: none;
+            border: none;
         }
 
         .play-btn:hover {
@@ -557,14 +600,24 @@
         /* Screen Share Card */
         .screen-share-preview {
             display: flex;
-            gap: 8px;
-            margin-top: 12px;
+            gap: 12px;
+            margin-top: 20px;
+            overflow-x: auto;
+            margin-left: -20px;
+            margin-right: -20px;
+            padding: 0 20px 16px 20px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .screen-share-preview::-webkit-scrollbar {
+            display: none;
         }
 
         .preview-img {
-            flex: 1;
-            height: 80px;
-            border-radius: 12px;
+            flex: 0 0 160px;
+            height: 100px;
+            border-radius: 16px;
             background-size: cover;
             background-position: center;
             position: relative;
@@ -592,6 +645,16 @@
             padding: 10px 16px;
             z-index: 1000;
             border-radius: 100px;
+            transition: var(--transition);
+        }
+
+        .dark-mode .bottom-bar {
+            background: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .bottom-bar.card:hover {
+            transform: translateX(-50%);
+            box-shadow: none;
         }
 
         .active-participants {
@@ -608,13 +671,17 @@
             align-items: center;
             gap: 12px;
             padding: 10px 14px;
-            background: rgba(0, 0, 0, 0.35);
-            backdrop-filter: blur(30px) saturate(1.8);
-            -webkit-backdrop-filter: blur(30px) saturate(1.8);
+            background: rgba(0, 0, 0, 0.04);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             border-radius: 100px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: none;
             z-index: 1000;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            box-shadow: none;
+        }
+
+        .dark-mode .floating-controls {
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .control-btn {
@@ -656,17 +723,21 @@
             grid-template-rows: repeat(2, 1fr);
             gap: 2px;
             padding: 4px;
-            background: rgba(255, 255, 255, 0.45);
-            backdrop-filter: blur(16px) saturate(1.6);
-            -webkit-backdrop-filter: blur(16px) saturate(1.6);
+            background: rgba(0, 0, 0, 0.04);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            border: none;
             z-index: 1000;
             cursor: pointer;
             transition: var(--transition);
             width: 44px;
             height: 44px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+            box-shadow: none;
+        }
+
+        .dark-mode .components-btn {
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .components-btn img {
@@ -691,15 +762,13 @@
         }
 
         .card.solid {
-            background: rgba(255, 255, 255, 0.96);
-            backdrop-filter: blur(20px) saturate(1.4);
-            -webkit-backdrop-filter: blur(20px) saturate(1.4);
+            background: #ffffff;
+            backdrop-filter: none;
             border: none;
             color: #1a1a1a;
             box-shadow:
-                0 4px 20px rgba(0, 0, 0, 0.05),
-                0 1px 3px rgba(0, 0, 0, 0.02),
-                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+                0 4px 20px rgba(0, 0, 0, 0.03),
+                0 1px 3px rgba(0, 0, 0, 0.01);
         }
 
         .card.solid:hover {
@@ -711,7 +780,7 @@
         }
 
         .dark-mode .card.solid {
-            background: rgba(30, 30, 30, 0.75);
+            background: rgba(26, 26, 26, 0.98);
             border: none;
             color: white;
             box-shadow:
@@ -731,12 +800,17 @@
             color: #aaa;
         }
 
-        .card.solid .count-badge {
-            background: rgba(0, 0, 0, 0.06);
-        }
-
         .dark-mode .card.solid .count-badge {
             background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Specific background for the last card to allow dark mode sync */
+        .card.card-alt {
+            background: linear-gradient(to bottom, #f4f4f4 0%, #ffffff 50%, #ffffff 100%);
+        }
+
+        .dark-mode .card.card-alt {
+            background: rgba(26, 26, 26, 0.98);
         }
 
         .active-speaker {
@@ -787,14 +861,16 @@
         }
 
         .dark-mode .voice-indicator {
-            background: white; /* Maintain white bg for visibility as requested */
+            background: white;
+            /* Maintain white bg for visibility as requested */
             border: none;
         }
 
         .wave-bar {
             width: 2px;
             height: 6px;
-            background: #4b5563; /* Deep grey */
+            background: #4b5563;
+            /* Deep grey */
             border-radius: 1px;
             animation: voice-wave 1s ease-in-out infinite;
         }
@@ -822,8 +898,8 @@
         .more-participants {
             width: 40px;
             height: 40px;
-            background: rgba(255, 255, 255, 0.35);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.25);
+            border: none;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -839,7 +915,7 @@
             display: flex;
             gap: 16px;
             justify-content: center;
-            margin: 48px 0 160px 0;
+            margin: 24px 0 120px 0;
             width: 100%;
             z-index: 900;
         }
@@ -863,15 +939,29 @@
         }
 
         @media (max-width: 1200px) {
+            body {
+                height: auto;
+                min-height: 100vh;
+                overflow-y: auto;
+            }
+
             .dashboard-grid {
                 grid-template-columns: repeat(2, 1fr);
                 grid-auto-rows: 280px;
+                flex: none;
+            }
+
+            .indicators {
+                margin: 48px 0 160px 0;
             }
         }
 
         @media (max-width: 768px) {
             body {
                 padding: 16px;
+                height: auto;
+                min-height: 100vh;
+                overflow-y: auto;
             }
 
             .dashboard-grid {
@@ -955,7 +1045,15 @@
             <img src="https://i.pravatar.cc/100?u=meeting_host" class="avatar" alt="Host">
             <span>Meeting is about to start</span>
             <span class="time-tag">-5:23</span>
-            <div class="close-btn"><i data-lucide="x" style="width: 14px;"></i></div>
+            <div class="close-btn">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <circle cx="16" cy="16" r="14" fill="none" stroke="#e5e7eb" stroke-width="2" />
+                    <circle cx="16" cy="16" r="14" fill="none" stroke="#1a1a1a" stroke-width="2" 
+                            stroke-dasharray="88" stroke-dashoffset="25" stroke-linecap="round" 
+                            transform="rotate(-90 16 16)" />
+                </svg>
+                <i data-lucide="x" style="width: 12px; position: relative; z-index: 2;"></i>
+            </div>
         </div>
 
         <div class="view-switcher">
@@ -1076,7 +1174,7 @@
                 </div>
             </div>
             <div class="card-footer">
-                <div class="large-avatars">
+                <div class="avatar-group overlap">
                     <img src="https://i.pravatar.cc/100?u=large1" alt="Avatar">
                     <img src="https://i.pravatar.cc/100?u=large2" alt="Avatar">
                 </div>
@@ -1113,7 +1211,7 @@
                 <i data-lucide="bar-chart-2" style="width: 16px; opacity: 0.5;"></i>
             </div>
             <div class="card-footer">
-                <div class="avatar-group">
+                <div class="avatar-group overlap">
                     <img src="https://i.pravatar.cc/100?u=7" alt="Avatar">
                     <img src="https://i.pravatar.cc/100?u=8" alt="Avatar">
                     <img src="https://i.pravatar.cc/100?u=9" alt="Avatar">
@@ -1149,7 +1247,7 @@
                 <i data-lucide="video" style="width: 16px; opacity: 0.5;"></i>
             </div>
             <div class="card-footer">
-                <div class="avatar-group">
+                <div class="avatar-group overlap">
                     <img src="https://i.pravatar.cc/100?u=11" alt="Avatar">
                     <img src="https://i.pravatar.cc/100?u=12" alt="Avatar">
                 </div>
@@ -1157,20 +1255,23 @@
             </div>
         </div>
 
-        <!-- Card 8: Screen Share -->
-        <div class="card solid">
-            <div class="card-header">
-                <div class="view-switcher" style="background: rgba(0, 0, 0, 0.05); font-size: 0.7rem;">
-                    <button class="view-btn active" style="padding: 4px 10px;">Screen Share</button>
-                    <button class="view-btn" style="padding: 4px 10px;">0:30</button>
-                </div>
+        <div class="card solid card-alt">
+            <div class="card-header" style="gap: 8px; justify-content: flex-start;">
+                <div class="nav-btn" style="padding: 6px 14px; font-size: 0.75rem; background: #ffffff; color: #3b82f6; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);">Screen Share</div>
+                <div class="nav-btn" style="padding: 6px 14px; font-size: 0.75rem; background: #ffffff; color: #1a1a1a; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);">0:30</div>
             </div>
             <div class="screen-share-preview">
-                <div class="preview-img" style="background-image: url('https://picsum.photos/seed/screen1/200/150');">
-                    <span class="tag">John</span>
+                <div class="preview-img" style="background-image: url('https://picsum.photos/seed/screen1/300/200');">
                 </div>
-                <div class="preview-img" style="background-image: url('https://picsum.photos/seed/screen2/200/150');">
-                    <span class="tag">Alice</span>
+                <div class="preview-img" style="background-image: url('https://picsum.photos/seed/screen2/300/200'); overflow: visible;">
+                    <div style="position: absolute; bottom: -8px; right: -8px; display: flex; align-items: center; gap: 4px; z-index: 10;">
+                        <img src="https://i.pravatar.cc/100?u=alice_av" style="width: 24px; height: 24px; border-radius: 50%; border: 2px solid #f4f4f4; object-fit: cover;">
+                        <span style="background: #e05e36; color: white; font-size: 0.65rem; padding: 2px 8px; border-radius: 100px; font-weight: 600;">Alice</span>
+                    </div>
+                </div>
+                <div class="preview-img" style="background-image: url('https://picsum.photos/seed/screen3/300/200');">
+                </div>
+                <div class="preview-img" style="background-image: url('https://picsum.photos/seed/screen4/300/200');">
                 </div>
             </div>
             <div class="card-footer">
@@ -1178,7 +1279,7 @@
                     <img src="https://i.pravatar.cc/100?u=13" alt="Avatar">
                     <img src="https://i.pravatar.cc/100?u=14" alt="Avatar">
                 </div>
-                <div class="count-badge">8</div>
+                <div class="count-badge" style="background: #F3F3F3; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">8</div>
             </div>
         </div>
     </main>
@@ -1189,7 +1290,7 @@
         <div class="dot"></div>
     </div>
 
-    <footer class="bottom-bar glass">
+    <footer class="bottom-bar card glass">
         <div class="active-participants">
             <div class="active-speaker">
                 <div class="voice-indicator">
@@ -1276,6 +1377,41 @@
                 btn.classList.add('active');
             });
         });
+
+        // Mouse Drag Scroll for Carousel
+        const slider = document.querySelector('.screen-share-preview');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            slider.classList.add('active');
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+            slider.style.cursor = 'grabbing';
+        });
+
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+            slider.style.cursor = 'grab';
+        });
+
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+            slider.style.cursor = 'grab';
+        });
+
+        slider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2; // scroll-fast
+            slider.scrollLeft = scrollLeft - walk;
+        });
+
+        // Initial cursor state
+        slider.style.cursor = 'grab';
     </script>
 </body>
 

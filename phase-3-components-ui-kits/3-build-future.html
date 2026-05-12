@@ -42,11 +42,12 @@
             position: relative;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
         }
 
         /* Navigation */
         nav {
-            padding: 40px 80px;
+            padding: 30px 60px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -61,7 +62,7 @@
         }
 
         .logo-svg {
-            height: 28px;
+            height: 22px;
             width: auto;
             filter: brightness(0);
             /* Ensures the logo is solid black */
@@ -81,11 +82,11 @@
             text-decoration: none;
             color: var(--text-main);
             font-weight: 500;
-            font-size: 12px;
+            font-size: 11px;
             letter-spacing: 1.5px;
             text-transform: uppercase;
             transition: var(--transition);
-            opacity: 0.6;
+            opacity: 0.8;
         }
 
         .nav-links a:hover {
@@ -99,10 +100,10 @@
         }
 
         .btn {
-            padding: 16px 32px;
+            padding: 14px 28px;
             border-radius: 100px;
             font-weight: 600;
-            font-size: 11px;
+            font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 1.2px;
             cursor: pointer;
@@ -134,8 +135,8 @@
         }
 
         .menu-toggle {
-            width: 50px;
-            height: 50px;
+            width: 44px;
+            height: 44px;
             background: var(--text-main);
             border-radius: 50%;
             display: flex;
@@ -181,21 +182,22 @@
         .hero-main {
             flex: 1;
             position: relative;
-            padding: 0 80px 60px;
+            padding: 0 80px 15vh;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
 
         .top-subtitle {
-            font-size: 14px;
+            font-size: 11px;
             font-weight: 600;
             letter-spacing: 1px;
-            max-width: 300px;
-            line-height: 1.2;
+            max-width: 250px;
+            line-height: 1.3;
             z-index: 10;
             text-transform: uppercase;
             margin-top: 20px;
+            opacity: 0.8;
         }
 
         .title-container {
@@ -203,7 +205,7 @@
             top: 45%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 100%;
+            width: calc(100% - 160px);
             pointer-events: none;
             display: flex;
             flex-direction: column;
@@ -213,24 +215,25 @@
 
         .hero-title {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 24vw;
-            line-height: 0.85;
+            font-size: 22.5vw;
+            line-height: 0.8;
             color: var(--text-main);
             white-space: nowrap;
-            letter-spacing: -4px;
+            letter-spacing: -6px;
             text-align: center;
             width: 100%;
+            transform: scaleY(1.48);
+            transform-origin: center;
         }
 
         /* Robot Positioning */
         .robot-wrapper {
             position: absolute;
-            bottom: -60px;
-            /* Neutralizes the hero-main padding to touch the screen edge */
+            bottom: -5vh;
             left: 50%;
             transform: translateX(-50%);
-            width: 55%;
-            max-width: 1200px;
+            width: 54%;
+            max-width: 1400px;
             z-index: 5;
             display: flex;
             flex-direction: column;
@@ -248,10 +251,10 @@
         /* Interactive labels */
         .interactive-label {
             position: absolute;
-            padding: 10px 40px;
+            padding: 8px 30px;
             border: 1px solid #000000;
             border-radius: 1000px;
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 600;
             letter-spacing: 2px;
             background: var(--bg-page);
@@ -268,18 +271,18 @@
         }
 
         .label-predict {
-            top: 45%;
-            left: 33%;
+            top: 37%;
+            left: 31%;
         }
 
         .label-prototype {
-            bottom: 35%;
-            left: 46%;
+            top: 60%;
+            left: 40%;
         }
 
         .label-propel {
-            top: 40%;
-            right: 15%;
+            top: 35%;
+            right: 17%;
         }
 
         /* Bottom Section */
@@ -298,10 +301,11 @@
         }
 
         .bottom-tagline {
-            font-size: 13px;
+            font-size: 11px;
             font-weight: 600;
             letter-spacing: 0.5px;
             text-transform: uppercase;
+            opacity: 0.8;
         }
 
         .tag-group {
@@ -310,10 +314,10 @@
         }
 
         .tag {
-            padding: 10px 22px;
+            padding: 8px 18px;
             border: 1px solid #000000;
             border-radius: 100px;
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -331,12 +335,12 @@
         .profile-card {
             background: var(--text-main);
             color: #fff;
-            padding: 10px 25px 10px 10px;
+            padding: 8px 22px 8px 8px;
             border-radius: 100px;
             display: flex;
             align-items: center;
-            gap: 15px;
-            max-width: 340px;
+            gap: 12px;
+            max-width: 320px;
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
             transition: var(--transition);
             cursor: pointer;
@@ -347,8 +351,8 @@
         }
 
         .profile-img {
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             overflow: hidden;
         }
@@ -390,7 +394,7 @@
             transform: translateX(100%);
             transition: var(--transition);
             padding: 80px;
-            box-shadow: -20px 0 60px rgba(0,0,0,0.05);
+            box-shadow: -20px 0 60px rgba(0, 0, 0, 0.05);
         }
 
         .mobile-menu.active {
@@ -436,11 +440,16 @@
             position: absolute;
         }
 
-        .close-drawer span:nth-child(1) { transform: rotate(45deg); }
-        .close-drawer span:nth-child(2) { transform: rotate(-45deg); }
+        .close-drawer span:nth-child(1) {
+            transform: rotate(45deg);
+        }
+
+        .close-drawer span:nth-child(2) {
+            transform: rotate(-45deg);
+        }
 
         .nav-links {
-            display: none; /* Hide standard nav links as requested for drawer use */
+            display: flex;
         }
 
         /* Responsive */

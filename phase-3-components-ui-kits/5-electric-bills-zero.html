@@ -12,13 +12,15 @@
         :root {
             --bg-light: #ffffff;
             --bg-dark: #000000;
-            --text-light: #111111;
-            --text-dark: #ffffff;
+            --text-light: #3E3424;
+            --text-dark: #E5DEC9; /* Whiter sandy tone */
             --active-toggle: #f5f8ea;
             /* Light cream/green from screenshot */
             --transition-speed: 0.9s;
-            --pull-easing: cubic-bezier(0.32, 0, 0.67, 0); /* Fast out */
-            --return-easing: cubic-bezier(0.175, 0.885, 0.32, 1.4); /* Snappy bounce */
+            --pull-easing: cubic-bezier(0.32, 0, 0.67, 0);
+            /* Fast out */
+            --return-easing: cubic-bezier(0.175, 0.885, 0.32, 1.4);
+            /* Snappy bounce */
         }
 
         * {
@@ -102,6 +104,7 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            transform: scale(1.1);
         }
 
         .bg-front {
@@ -112,7 +115,7 @@
         .bg-back {
             z-index: 1;
             filter: blur(40px);
-            transform: scale(1.1);
+            transform: scale(1.2);
             /* Prevent white edges from blur */
         }
 
@@ -136,8 +139,8 @@
         /* Navbar */
         .navbar {
             width: 100%;
-            max-width: 1400px;
-            padding: 24px 40px;
+            max-width: 100%;
+            padding: 24px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -164,9 +167,11 @@
         .hamburger.active span:nth-child(1) {
             transform: translateY(8px) rotate(45deg);
         }
+
         .hamburger.active span:nth-child(2) {
             opacity: 0;
         }
+
         .hamburger.active span:nth-child(3) {
             transform: translateY(-8px) rotate(-45deg);
         }
@@ -187,17 +192,21 @@
             filter: brightness(0);
         }
 
+
+
         .brand-name {
             font-size: 24px;
-            font-weight: 600;
+            font-weight: 400;
             letter-spacing: -0.5px;
             color: #ffffff;
             transition: color 0.5s ease;
         }
 
         body.light-theme .brand-name {
-            color: #111111;
+            color: #000000;
         }
+
+
 
         .nav-links {
             display: flex;
@@ -218,8 +227,8 @@
         }
 
         .cta-button {
-            background: #fff;
-            color: #000;
+            background: #ffffff;
+            color: #000000;
             border: none;
             padding: 12px 24px;
             border-radius: 8px;
@@ -229,9 +238,13 @@
             transition: transform 0.3s, background 0.3s;
         }
 
+        .drawer-cta {
+            display: none;
+        }
+
         body.light-theme .cta-button {
-            background: #000;
-            color: #fff;
+            background: #000000;
+            color: #ffffff;
         }
 
         .cta-button:hover {
@@ -245,20 +258,21 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             text-align: center;
-            padding: 0 20px;
+            padding: 30px 20px 0;
             z-index: 5;
         }
 
         .hero-title {
-            font-size: 72px;
-            font-weight: 700;
-            line-height: 1.1;
-            max-width: 800px;
+            font-size: 56px;
+            font-weight: 500;
+            line-height: 1.0;
+            max-width: 1000px;
             margin-bottom: 40px;
             letter-spacing: -1px;
-            color: rgba(255, 255, 255, 0.95);
+            color: var(--text-dark);
+            opacity: 0.95;
         }
 
         @media (max-width: 768px) {
@@ -266,13 +280,23 @@
                 font-size: 42px;
                 margin-bottom: 30px;
             }
-            
+
             .navbar {
                 padding: 16px 20px;
             }
 
+            .hero-bg {
+                background-position: 70% center;
+                transform: scale(1.2); /* Slightly more zoom on mobile to fill frame better */
+            }
+
+            .pull-down {
+                transform: translateY(20vh) scale(1.2) !important;
+            }
+
             .nav-links {
-                display: none; /* Hidden by default on mobile */
+                display: none;
+                /* Hidden by default on mobile */
                 position: fixed;
                 top: 0;
                 right: 0;
@@ -306,6 +330,13 @@
                 display: none;
             }
 
+            .drawer-cta {
+                display: block;
+                width: 200px;
+                margin-top: 20px;
+                padding: 16px;
+            }
+
             .hamburger {
                 display: flex !important;
             }
@@ -327,7 +358,7 @@
         }
 
         body:not(.light-theme) .title-accent {
-            color: #000000;
+            color: #10100F;
         }
 
         body.light-theme .title-accent {
@@ -335,33 +366,39 @@
         }
 
         body.light-theme .hero-title {
-            color: rgba(26, 26, 26, 0.95);
+            color: var(--text-light);
+            opacity: 0.95;
         }
+
+
 
         /* Theme Toggle */
         .theme-toggle {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(210, 198, 171, 0.15);
+            /* Semi-transparent #D2C6AB */
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 8px;
-            border-radius: 16px;
+            border: none;
+            padding: 2px 1px;
+            border-radius: 8px;
             display: flex;
             gap: 4px;
-            margin-bottom: 40px;
+            margin-top: auto;
+            margin-bottom: 8px;
             position: relative;
         }
 
         body.light-theme .theme-toggle {
-            background: rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(0, 0, 0, 0.05);
+            background: rgba(210, 198, 171, 0.25);
+            /* Slightly more visible in light mode */
+            border: none;
         }
 
         .toggle-btn {
-            padding: 12px 40px;
-            border-radius: 12px;
+            padding: 6px 40px;
+            border-radius: 4px;
             border: none;
             background: transparent;
-            color: inherit;
+            color: #ffffff;
             cursor: pointer;
             z-index: 1;
             transition: color 0.3s;
@@ -372,7 +409,7 @@
         }
 
         .toggle-btn .label {
-            font-weight: 600;
+            font-weight: 500;
             font-size: 18px;
         }
 
@@ -383,39 +420,45 @@
 
         .toggle-indicator {
             position: absolute;
-            top: 8px;
-            left: 8px;
-            width: calc(50% - 10px);
-            height: calc(100% - 16px);
+            top: 2px;
+            left: 1px;
+            width: calc(50% - 3px);
+            height: calc(100% - 4px);
             background: var(--active-toggle);
-            border-radius: 12px;
+            border-radius: 4px;
             transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 0;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         body:not(.light-theme) .toggle-indicator {
-            transform: translateX(100%);
+            transform: translateX(calc(100% + 4px));
         }
 
         .toggle-btn.active {
-            color: #111 !important;
+            color: #3E3424 !important;
             /* Active text is always dark on the cream background */
         }
 
-        /* Footer Text */
+        .toggle-btn.active .subtext {
+            opacity: 0.8;
+        }
+
         .hero-footer {
             max-width: 600px;
-            padding-bottom: 60px;
-            opacity: 0.8;
+            margin-bottom: 60px;
+            margin-top: 0;
+            color: var(--text-dark);
+            opacity: 1;
             font-size: 16px;
+            font-weight: 300;
             line-height: 1.6;
             z-index: 5;
         }
 
         /* Animations */
         .pull-down {
-            transform: translateY(20vh) !important;
+            transform: translateY(20vh) scale(1.1) !important;
             opacity: 0.8 !important;
             transition: transform 0.3s var(--pull-easing), opacity 0.3s ease !important;
         }
@@ -478,6 +521,7 @@
                 <a href="#">Careers</a>
                 <a href="#">Resources</a>
                 <a href="#">Customers</a>
+                <button class="cta-button drawer-cta">Get an Instant Quote</button>
             </div>
             <button class="cta-button nav-cta">Get an Instant Quote</button>
             <div class="hamburger" id="hamburger">
@@ -489,15 +533,15 @@
 
         <!-- Hero Content -->
         <div class="hero-content">
-            <h1 class="hero-title">$0 Electricity Bills <span class="title-accent">for the next</span> 7 Years</h1>
+            <h1 class="hero-title">$0 Electricity Bills<br><span class="title-accent">for the next</span> 7 years</h1>
 
             <div class="theme-toggle">
                 <div class="toggle-indicator"></div>
-                <button class="toggle-btn active" id="morning-btn">
+                <button class="toggle-btn" id="morning-btn">
                     <span class="label">Morning</span>
                     <span class="subtext">$0 for Electricity</span>
                 </button>
-                <button class="toggle-btn" id="night-btn">
+                <button class="toggle-btn active" id="night-btn">
                     <span class="label">Night</span>
                     <span class="subtext">$0 for Electricity</span>
                 </button>
@@ -555,7 +599,7 @@
                 // 5. Trigger return
                 setTimeout(() => {
                     bgFront.classList.remove('pull-down');
-                }, 30); 
+                }, 30);
 
             }, 300); // Matching the 0.3s duration
         };
