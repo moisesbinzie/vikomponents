@@ -44,7 +44,7 @@
         /* ─── NAVBAR ─── */
         nav {
             width: 100%;
-            max-width: 1100px;
+            max-width: 1240px;
             display: grid;
             grid-template-columns: 1fr auto 1fr;
             align-items: center;
@@ -160,43 +160,66 @@
         /* ─── HERO CARD ─── */
         .hero-card {
             width: 100%;
-            max-width: 1100px;
+            max-width: 1240px;
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.07);
             overflow: hidden;
             position: relative;
             background: #0d0b12;
-            padding: 60px 40px 70px;
+            padding: 80px 40px 70px;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            min-height: 624px;
+            min-height: 640px;
             /* Increased from 520px by 20% */
         }
 
-        /* Deep purple-magenta radial glow */
+        /* Smooth flowing arc gradient: Dark → Purple → White */
         .hero-card::before {
             content: '';
             position: absolute;
             inset: 0;
             background:
-                radial-gradient(ellipse 70% 55% at 50% 85%, #b0308880 0%, #80106040 40%, transparent 70%),
-                radial-gradient(ellipse 100% 60% at 50% 100%, #c850a020 0%, transparent 60%);
+                /* Primary arc — many stops for buttery-smooth banding-free transition */
+                radial-gradient(circle at 50% -70%,
+                    transparent 60%,
+                    rgba(176, 48, 136, 0.03) 63%,
+                    rgba(176, 48, 136, 0.08) 65%,
+                    rgba(176, 48, 136, 0.16) 67%,
+                    rgba(176, 48, 136, 0.28) 69%,
+                    rgba(176, 48, 136, 0.40) 71%,
+                    rgba(176, 48, 136, 0.52) 73%,
+                    rgba(176, 48, 136, 0.64) 75%,
+                    rgba(176, 48, 136, 0.74) 77%,
+                    rgba(176, 48, 136, 0.82) 79%,
+
+                    /* Deep Saturated Purple */
+
+                    rgba(210, 70, 175, 0.92) 85%,
+                    /* Bright Electric Purple */
+                    rgba(240, 110, 210, 0.88) 87%,
+
+                    /* Luminous Glow */
+                    rgba(255, 205, 250, 0.92) 91%,
+                    rgba(255, 240, 255, 0.98) 93%,
+                    #ffffff 95%),
+                /* Soft ambient central glow */
+                radial-gradient(circle at 50% 35%, rgba(120, 40, 180, 0.08) 0%, transparent 50%);
             pointer-events: none;
             z-index: 0;
         }
 
-        /* Grid overlay */
+        /* Grid overlay - visibility starts from the purple area (40% height) */
         .hero-grid {
             position: absolute;
             inset: 0;
             background-image:
-                linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-            background-size: 36px 36px;
-            mask-image: radial-gradient(ellipse 80% 60% at 50% 100%, black 30%, transparent 75%);
-            -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 100%, black 30%, transparent 75%);
+                linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(circle at 50% -70%, transparent 60%, black 78%);
+            -webkit-mask-image: radial-gradient(circle at 50% -70%, transparent 60%, black 78%);
             z-index: 0;
             pointer-events: none;
         }
@@ -256,9 +279,20 @@
             box-shadow:
                 6px 6px 12px rgba(0, 0, 0, 0.4),
                 -4px -4px 10px rgba(255, 255, 255, 0.03),
-                inset 1px 1px 1px rgba(255, 255, 255, 0.05);
+                inset 1px 1px 1px rgba(255, 255, 255, 0.05),
+                inset 4px 4px 8px rgba(0, 0, 0, 0.4);
             transition: transform 0.2s, box-shadow 0.2s;
             cursor: pointer;
+        }
+
+        /* External ring for side nodes */
+        .icon-node::after {
+            content: '';
+            position: absolute;
+            inset: -7px;
+            border-radius: 50%;
+            border: 1px dotted #1a1a24;
+            pointer-events: none;
         }
 
         .icon-node:hover {
@@ -301,7 +335,8 @@
             box-shadow:
                 8px 8px 16px rgba(0, 0, 0, 0.5),
                 -6px -6px 14px rgba(255, 255, 255, 0.04),
-                inset 1px 1px 2px rgba(255, 255, 255, 0.06);
+                inset 1px 1px 2px rgba(255, 255, 255, 0.06),
+                inset 6px 6px 12px rgba(0, 0, 0, 0.5);
             transition: transform 0.2s, box-shadow 0.2s;
             cursor: pointer;
         }
@@ -412,19 +447,22 @@
         }
 
         .hero-heading {
-            font-size: clamp(2.4rem, 5.5vw, 3.5rem);
-            font-weight: 500;
-            line-height: 1.12;
+            font-size: clamp(2.4rem, 5.5vw, 4rem);
+            font-weight: 300;
+            line-height: 1.1;
             letter-spacing: -0.02em;
-            margin-bottom: 18px;
+            margin-bottom: 24px;
+            color: #fff;
+        }
 
-            /* Gradient text */
-            background: linear-gradient(to right, #ffffff 30%, rgba(255, 255, 255, 0.45) 100%);
+        .hero-heading strong {
+            display: block;
+            font-weight: 400;
+            margin-top: 4px;
+            background: linear-gradient(to right, #ffffff, #a98597);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            color: #fff;
-            /* Fallback */
         }
 
         .hero-heading .accent-word {
@@ -436,10 +474,10 @@
         .hero-sub {
             font-size: 0.9rem;
             font-weight: 400;
-            line-height: 1.65;
-            color: rgba(255, 255, 255, 0.5);
-            max-width: 380px;
-            margin: 0 auto 32px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.4);
+            max-width: 440px;
+            margin: 0 auto 36px;
         }
 
         .btn-cta {
@@ -467,11 +505,11 @@
         /* ─── BRAND LOGOS ─── */
         .brands {
             width: 100%;
-            max-width: 1100px;
+            max-width: 1240px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 48px;
+            gap: 64px;
             padding: 32px 24px 10px;
             flex-wrap: wrap;
         }
@@ -479,17 +517,17 @@
         .brand-item {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             color: rgba(255, 255, 255, 0.35);
-            font-size: 0.95rem;
+            font-size: 1.1rem;
             font-weight: 500;
             letter-spacing: -0.01em;
             white-space: nowrap;
         }
 
         .brand-item svg {
-            width: 18px;
-            height: 18px;
+            width: 22px;
+            height: 22px;
             fill: rgba(255, 255, 255, 0.35);
             flex-shrink: 0;
         }
@@ -724,8 +762,8 @@
         <!-- Hero Text -->
         <div class="hero-content">
             <h1 class="hero-heading">
-                The simple way<br>
-                to encrypt your data
+                The simple way
+                <strong>encryption your data</strong>
             </h1>
             <p class="hero-sub">
                 Fully managed data encrypting service and annotation<br>
@@ -824,6 +862,7 @@
         const beamPath = document.getElementById('beam-path');
         const beamPathGlow = document.getElementById('beam-path-glow');
         const beamGradient = document.getElementById('beam-gradient');
+        const splash = document.getElementById('splash');
 
         function updateBeamPath() {
             if (!pipeline || !nodeStack || !nodeX || !nodeShield || !beamPath) return;
@@ -847,45 +886,77 @@
             if (beamPathGlow) beamPathGlow.setAttribute('d', d);
         }
 
-        let startTime = null;
-        const duration = 3000;
-        const splash = document.getElementById('splash');
+        let beamState = 'p1'; // 'p1', 'splash', 'p2', 'idle'
+        let lastStateChange = performance.now();
 
-        function animate(timestamp) {
-            if (!startTime) startTime = timestamp;
-            const progress = (timestamp - startTime) % duration;
-            const percentage = progress / duration;
-
-            // Move the gradient from -50% to 150% to ensure it fully passes through
-            const x1 = -50 + (percentage * 200);
-            const x2 = x1 + 15; // 15% width beam
+        function updateBeam(percentage) {
+            // Map percentage (0-1) to gradient range (-10 to 110)
+            // Center of beam is at percentage * 100
+            const center = percentage * 100;
+            const halfWidth = 5; // Reduced from 10 to 5 (50% shorter)
+            const x1 = center - halfWidth;
+            const x2 = center + halfWidth;
 
             beamGradient.setAttribute('x1', `${x1}%`);
             beamGradient.setAttribute('x2', `${x2}%`);
             beamGradient.setAttribute('y1', '0%');
             beamGradient.setAttribute('y2', '0%');
+        }
 
-            // Trigger node lighting effects
-            // Left node: leaves around 25%
-            if (percentage > 0.22 && percentage < 0.35) {
-                nodeStack.classList.add('active');
-            } else {
-                nodeStack.classList.remove('active');
-            }
+        function animate(timestamp) {
+            const elapsed = timestamp - lastStateChange;
 
-            // Middle node splash: hits around 44-46%
-            if (percentage > 0.44 && percentage < 0.48) {
-                if (!splash.classList.contains('animate')) {
+            if (beamState === 'p1') {
+                // Phase 1: Start to Middle (800ms)
+                const duration = 800;
+                const p = Math.min(elapsed / duration, 1);
+                const currentPercentage = p * 0.5;
+                updateBeam(currentPercentage);
+
+                // Lighting: Node 1 active at start
+                if (p < 0.4) nodeStack.classList.add('active');
+                else nodeStack.classList.remove('active');
+
+                if (p === 1) {
+                    beamState = 'splash';
+                    lastStateChange = timestamp;
                     splash.classList.add('animate');
-                    setTimeout(() => splash.classList.remove('animate'), 800);
+                    // Hide beam during splash
+                    beamPath.style.opacity = '0';
+                    beamPathGlow.style.opacity = '0';
                 }
-            }
+            } else if (beamState === 'splash') {
+                // Phase 2: Splash (800ms)
+                if (elapsed >= 800) {
+                    beamState = 'p2';
+                    lastStateChange = timestamp;
+                    splash.classList.remove('animate');
+                    // Reappear beam
+                    beamPath.style.opacity = '1';
+                    beamPathGlow.style.opacity = '1';
+                }
+            } else if (beamState === 'p2') {
+                // Phase 3: Middle to End (800ms)
+                const duration = 800;
+                const p = Math.min(elapsed / duration, 1);
+                const currentPercentage = 0.5 + (p * 0.5);
+                updateBeam(currentPercentage);
 
-            // Right node: enters around 75%
-            if (percentage > 0.65 && percentage < 0.78) {
-                nodeShield.classList.add('active');
-            } else {
-                nodeShield.classList.remove('active');
+                // Lighting: Node 3 active at end
+                if (p > 0.6) nodeShield.classList.add('active');
+                else nodeShield.classList.remove('active');
+
+                if (p === 1) {
+                    beamState = 'idle';
+                    lastStateChange = timestamp;
+                    nodeShield.classList.remove('active');
+                }
+            } else if (beamState === 'idle') {
+                // Phase 4: Idle (1000ms)
+                if (elapsed >= 1000) {
+                    beamState = 'p1';
+                    lastStateChange = timestamp;
+                }
             }
 
             requestAnimationFrame(animate);
